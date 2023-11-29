@@ -1,0 +1,3173 @@
+<!doctype html><html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <title>Journal des événements du cycle de vie de l’artefact</title>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+<style data-fill-with="stylesheet">/******************************************************************************
+ *                   Style sheet for the W3C specifications                   *
+ *
+ * Special classes handled by this style sheet include:
+ *
+ * Indices
+ *   - .toc for the Table of Contents (<ol class="toc">)
+ *     + <span class="secno"> for the section numbers
+ *   - #toc for the Table of Contents (<nav id="toc">)
+ *   - ul.index for Indices (<a href="#ref">term</a><span>, in § N.M</span>)
+ *   - table.index for Index Tables (e.g. for properties or elements)
+ *
+ * Structural Markup
+ *   - table.data for general data tables
+ *     -> use 'scope' attribute, <colgroup>, <thead>, and <tbody> for best results !
+ *     -> use <table class='complex data'> for extra-complex tables
+ *     -> use <td class='long'> for paragraph-length cell content
+ *     -> use <td class='pre'> when manual line breaks/indentation would help readability
+ *   - dl.switch for switch statements
+ *   - ol.algorithm for algorithms (helps to visualize nesting)
+ *   - .figure and .caption (HTML4) and figure and figcaption (HTML5)
+ *     -> .sidefigure for right-floated figures
+ *   - ins/del
+ *     -> ins/del.c### for candidate and proposed changes (amendments)
+ *
+ * Code
+ *   - pre and code
+ *
+ * Special Sections
+ *   - .note       for informative notes             (div, p, span, aside, details)
+ *   - .example    for informative examples          (div, p, pre, span)
+ *   - .issue      for issues                        (div, p, span)
+ *   - .advisement for loud normative statements     (div, p, strong)
+ *   - .annoying-warning for spec obsoletion notices (div, aside, details)
+ *   - .correction for "candidate corrections"       (div, aside, details, section)
+ *   - .addition   for "candidate additions"         (div, aside, details, section)
+ *   - .correction.proposed for "proposed corrections" (div, aside, details, section)
+ *   - .addition.proposed   for "proposed additions"   (div, aside, details, section)
+ *
+ * Definition Boxes
+ *   - pre.def   for WebIDL definitions
+ *   - table.def for tables that define other entities (e.g. CSS properties)
+ *   - dl.def    for definition lists that define other entitles (e.g. HTML elements)
+ *
+ * Numbering
+ *   - .secno for section numbers in .toc and headings (<span class='secno'>3.2</span>)
+ *   - .marker for source-inserted example/figure/issue numbers (<span class='marker'>Issue 4</span>)
+ *   - ::before styled for CSS-generated issue/example/figure numbers:
+ *     -> Documents wishing to use this only need to add
+ *        figcaption::before,
+ *        .caption::before { content: "Figure "  counter(figure) " ";  }
+ *        .example::before { content: "Example " counter(example) " "; }
+ *        .issue::before   { content: "Issue "   counter(issue) " ";   }
+ *
+ * Header Stuff (ignore, just don't conflict with these classes)
+ *   - .head for the header
+ *   - .copyright for the copyright
+ *
+ * Outdated warning for old specs
+ *
+ * Miscellaneous
+ *   - .overlarge for things that should be as wide as possible, even if
+ *     that overflows the body text area. This can be used on an item or
+ *     on its container, depending on the effect desired.
+ *     Note that this styling basically doesn't help at all when printing,
+ *     since A4 paper isn't much wider than the max-width here.
+ *     It's better to design things to fit into a narrower measure if possible.
+ *
+ *   - js-added ToC jump links (see fixup.js)
+ *
+ ******************************************************************************/
+
+/* color variables included separately for reliability */
+
+/******************************************************************************/
+/*                                    Body                                    */
+/******************************************************************************/
+
+	html {
+	}
+
+	body {
+		counter-reset: example figure issue;
+
+		/* Layout */
+		max-width: 50em;			  /* limit line length to 50em for readability   */
+		margin: 0 auto;				/* center text within page                    */
+		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
+		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag    */
+
+		/* Typography */
+		line-height: 1.5;
+		font-family: sans-serif;
+		widows: 2;
+		orphans: 2;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		hyphens: auto;
+
+		color: black;
+		color: var(--text);
+		background: white top left fixed no-repeat;
+		background: var(--bg) top left fixed no-repeat;
+		background-size: 25px auto;
+	}
+
+
+/******************************************************************************/
+/*                         Front Matter & Navigation                          */
+/******************************************************************************/
+
+/** Header ********************************************************************/
+
+	div.head { margin-bottom: 1em; }
+	div.head hr { border-style: solid; }
+
+	div.head h1 {
+		font-weight: bold;
+		margin: 0 0 .1em;
+		font-size: 220%;
+	}
+
+	div.head h2 { margin-bottom: 1.5em;}
+
+/** W3C Logo ******************************************************************/
+
+	.head .logo {
+		float: right;
+		margin: 0.4rem 0 0.2rem .4rem;
+	}
+
+	.head img[src*="logos/W3C"] {
+		display: block;
+		border: solid #1a5e9a;
+		border: solid var(--logo-bg);
+		border-width: .65rem .7rem .6rem;
+		border-radius: .4rem;
+		background: #1a5e9a;
+		background: var(--logo-bg);
+		color: white;
+		color: var(--logo-text);
+		font-weight: bold;
+	}
+
+	.head a:hover > img[src*="logos/W3C"],
+	.head a:focus > img[src*="logos/W3C"] {
+		opacity: .8;
+	}
+
+	.head a:active > img[src*="logos/W3C"] {
+		background: #c00;
+		background: var(--logo-active-bg);
+		border-color: #c00;
+		border-color: var(--logo-active-bg);
+	}
+
+	/* see also additional rules in Link Styling section */
+
+/** Copyright *****************************************************************/
+
+	p.copyright,
+	p.copyright small { font-size: small; }
+
+/** Back to Top / ToC Toggle **************************************************/
+
+	@media print {
+		#toc-nav {
+			display: none;
+		}
+	}
+	@media not print {
+		#toc-nav {
+			position: fixed;
+			z-index: 3;
+			bottom: 0; left: 0;
+			margin: 0;
+			min-width: 1.33em;
+			border-top-right-radius: 2rem;
+			box-shadow: 0 0 2px;
+			font-size: 1.5em;
+		}
+		#toc-nav > a {
+			display: block;
+			white-space: nowrap;
+
+			height: 1.33em;
+			padding: .1em 0.3em;
+			margin: 0;
+
+			box-shadow: 0 0 2px;
+			border: none;
+			border-top-right-radius: 1.33em;
+
+			color: #707070;
+			color: var(--tocnav-normal-text);
+			background: white;
+			background: var(--tocnav-normal-bg);
+		}
+		#toc-nav > a:hover,
+		#toc-nav > a:focus {
+			color: black;
+			color: var(--tocnav-hover-text);
+			background: #f8f8f8;
+			background: var(--tocnav-hover-bg);
+		}
+		#toc-nav > a:active {
+			color: #c00;
+			color: var(--tocnav-active-text);
+			background: white;
+			background: var(--tocnav-active-bg);
+		}
+
+		#toc-nav > #toc-jump {
+			padding-bottom: 2em;
+			margin-bottom: -1.9em;
+		}
+
+		/* statusbar gets in the way on keyboard focus; remove once browsers fix */
+		#toc-nav > a[href="#toc"]:not(:hover):focus:last-child {
+			padding-bottom: 1.5rem;
+		}
+
+		#toc-nav:not(:hover) > a:not(:focus) > span + span {
+			/* Ideally this uses :focus-within on #toc-nav */
+			display: none;
+		}
+		#toc-nav > a > span + span {
+			padding-right: 0.2em;
+		}
+	}
+
+/** ToC Sidebar ***************************************************************/
+
+	/* Floating sidebar */
+	@media screen {
+		body.toc-sidebar #toc {
+			position: fixed;
+			top: 0; bottom: 0;
+			left: 0;
+			width: 23.5em;
+			max-width: 80%;
+			max-width: calc(100% - 2em - 26px);
+			overflow: auto;
+			padding: 0 1em;
+			padding-left: 42px;
+			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
+			background: inherit;
+			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
+			z-index: 1;
+			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
+		}
+		body.toc-sidebar #toc h2 {
+			margin-top: .8rem;
+			font-variant: small-caps;
+			font-variant: all-small-caps;
+			text-transform: lowercase;
+			font-weight: bold;
+			color: gray;
+			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
+		}
+		body.toc-sidebar #toc-jump:not(:focus) {
+			width: 0;
+			height: 0;
+			padding: 0;
+			position: absolute;
+			overflow: hidden;
+		}
+	}
+	/* Hide main scroller when only the ToC is visible anyway */
+	@media screen and (max-width: 28em) {
+		body.toc-sidebar {
+			overflow: hidden;
+		}
+	}
+
+	/* Sidebar with its own space */
+	@media screen and (min-width: 78em) {
+		body:not(.toc-inline) #toc {
+			position: fixed;
+			top: 0; bottom: 0;
+			left: 0;
+			width: 23.5em;
+			overflow: auto;
+			padding: 0 1em;
+			padding-left: 42px;
+			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
+			background: inherit;
+			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
+			z-index: 1;
+			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
+		}
+		body:not(.toc-inline) #toc h2 {
+			margin-top: .8rem;
+			font-variant: small-caps;
+			font-variant: all-small-caps;
+			text-transform: lowercase;
+			font-weight: bold;
+			color: gray;
+			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
+		}
+
+		body:not(.toc-inline) {
+			padding-left: 29em;
+		}
+		/* See also Overflow section at the bottom */
+
+		body:not(.toc-inline) #toc-jump:not(:focus) {
+			width: 0;
+			height: 0;
+			padding: 0;
+			position: absolute;
+			overflow: hidden;
+		}
+	}
+	@media screen and (min-width: 90em) {
+		body:not(.toc-inline) {
+			margin: 0 4em;
+		}
+	}
+
+/******************************************************************************/
+/*                                Sectioning                                  */
+/******************************************************************************/
+
+/** Headings ******************************************************************/
+
+	h1, h2, h3, h4, h5, h6, dt {
+		page-break-after: avoid;
+		page-break-inside: avoid;
+		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
+		font-family: inherit;	/* Inherit the font family. */
+		line-height: 1.2;		/* Keep wrapped headings compact */
+		hyphens: manual;		/* Hyphenated headings look weird */
+	}
+
+	h2, h3, h4, h5, h6 {
+		margin-top: 3rem;
+	}
+
+	h1, h2, h3 {
+		color: #005A9C;
+		color: var(--heading-text);
+	}
+
+	h1 { font-size: 170%; }
+	h2 { font-size: 140%; }
+	h3 { font-size: 120%; }
+	h4 { font-weight: bold; }
+	h5 { font-style: italic; }
+	h6 { font-variant: small-caps; }
+	dt { font-weight: bold; }
+
+/** Subheadings ***************************************************************/
+
+	h1 + h2,
+	#profile-and-date {
+		/* #profile-and-date is a subtitle in an H2 under the H1 */
+		margin-top: 0;
+	}
+	h2 + h3,
+	h3 + h4,
+	h4 + h5,
+	h5 + h6 {
+		margin-top: 1.2em; /* = 1 x line-height */
+	}
+
+/** Section divider ***********************************************************/
+
+	:not(.head) > :not(.head) + hr {
+		font-size: 1.5em;
+		text-align: center;
+		margin: 1em auto;
+		height: auto;
+		color: black;
+		color: var(--hr-text);
+		border: transparent solid 0;
+		background: transparent;
+	}
+	:not(.head) > hr::before {
+		content: "\2727\2003\2003\2727\2003\2003\2727";
+	}
+
+/******************************************************************************/
+/*                            Paragraphs and Lists                            */
+/******************************************************************************/
+
+	p {
+		margin: 1em 0;
+	}
+
+	dd > p:first-child,
+	li > p:first-child {
+		margin-top: 0;
+	}
+
+	ul, ol {
+		margin-left: 0;
+		padding-left: 2em;
+	}
+
+	li {
+		margin: 0.25em 0 0.5em;
+		padding: 0;
+	}
+
+	dl dd {
+		margin: 0 0 .5em 2em;
+	}
+
+	.head dd + dd { /* compact for header */
+		margin-top: -.5em;
+	}
+
+	/* Style for algorithms */
+	ol.algorithm ol:not(.algorithm),
+	.algorithm > ol ol:not(.algorithm) {
+	border-left: 0.5em solid #DEF;
+	border-left: 0.5em solid var(--algo-border);
+	}
+
+	/* Put nice boxes around each algorithm. */
+	[data-algorithm]:not(.heading) {
+	 padding: .5em;
+	 border: thin solid #ddd;
+	 border: thin solid var(--algo-border);
+	 border-radius: .5em;
+	 margin: .5em calc(-0.5em - 1px);
+	}
+	[data-algorithm]:not(.heading) > :first-child {
+	 margin-top: 0;
+	}
+	[data-algorithm]:not(.heading) > :last-child {
+	 margin-bottom: 0;
+	}
+
+	/* Style for switch/case <dl>s */
+	dl.switch > dd > ol.only,
+	dl.switch > dd > .only > ol {
+	margin-left: 0;
+	}
+	dl.switch > dd > ol.algorithm,
+	dl.switch > dd > .algorithm > ol {
+	margin-left: -2em;
+	}
+	dl.switch {
+	padding-left: 2em;
+	}
+	dl.switch > dt {
+	text-indent: -1.5em;
+	margin-top: 1em;
+	}
+	dl.switch > dt + dt {
+	margin-top: 0;
+	}
+	dl.switch > dt::before {
+	content: '\21AA';
+	padding: 0 0.5em 0 0;
+	display: inline-block;
+	width: 1em;
+	text-align: right;
+	line-height: 0.5em;
+	}
+
+/** Terminology Markup ********************************************************/
+
+
+/******************************************************************************/
+/*                                 Inline Markup                              */
+/******************************************************************************/
+
+/** Terminology Markup ********************************************************/
+	dfn   { /* Defining instance */
+		font-weight: bolder;
+	}
+	a > i { /* Instance of term */
+		font-style: normal;
+	}
+	dt dfn code, code.idl {
+		font-size: inherit;
+	}
+	dfn var {
+		font-style: normal;
+	}
+
+/** Change Marking ************************************************************/
+
+	del {
+		color: #aa0000;
+		color: var(--del-text);
+		background: transparent;
+		background: var(--del-bg);
+		text-decoration: line-through;
+	}
+	ins {
+		color: #006100;
+		color: var(--ins-text);
+		background: transparent;
+		background: var(--ins-bg);
+		text-decoration: underline;
+	}
+
+	/* for amendments (candidate/proposed changes) */
+
+	.amendment ins, .correction ins, .addition ins,
+	ins[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment del, .correction del, .addition del,
+	del[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment.proposed ins, .correction.proposed ins, .addition.proposed ins,
+	ins[class^=c].proposed {
+		text-decoration-style: double;
+	}
+	.amendment.proposed del, .correction.proposed del, .addition.proposed del,
+	del[class^=c].proposed {
+		text-decoration-style: double;
+	}
+
+/** Miscellaneous improvements to inline formatting ***************************/
+
+	sup {
+		vertical-align: super;
+		font-size: 80%
+	}
+
+/******************************************************************************/
+/*                                    Code                                    */
+/******************************************************************************/
+
+/** General monospace/pre rules ***********************************************/
+
+	pre, code, samp {
+		font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
+		font-size: .9em;
+		hyphens: none;
+		text-transform: none;
+		text-align: left;
+		text-align: start;
+		font-variant: normal;
+		orphans: 3;
+		widows: 3;
+		page-break-before: avoid;
+	}
+	pre code,
+	code code {
+		font-size: 100%;
+	}
+
+	pre {
+		margin-top: 1em;
+		margin-bottom: 1em;
+		overflow: auto;
+	}
+
+/** Inline Code fragments *****************************************************/
+
+	/* Do something nice. */
+
+/******************************************************************************/
+/*                                    Links                                   */
+/******************************************************************************/
+
+/** General Hyperlinks ********************************************************/
+
+	/* We hyperlink a lot, so make it less intrusive */
+	a[href] {
+		color: #034575;
+		color: var(--a-normal-text);
+		text-decoration: underline #707070;
+		text-decoration: underline var(--a-normal-underline);
+		text-decoration-skip-ink: none;
+	}
+	a:visited {
+		color: #034575;
+		color: var(--a-visited-text);
+		text-decoration-color: #bbb;
+		text-decoration-color: var(--a-visited-underline);
+	}
+
+	/* Indicate interaction with the link */
+	a[href]:focus,
+	a[href]:hover {
+		text-decoration-thickness: 2px;
+	}
+	a[href]:active {
+		color: #c00;
+		color: var(--a-active-text);
+		text-decoration-color: #c00;
+		text-decoration-color: var(--a-active-underline);
+	}
+
+	/* Backout above styling for W3C logo */
+	.head .logo,
+	.head .logo a {
+		border: none;
+		text-decoration: none;
+		background: transparent;
+	}
+
+/******************************************************************************/
+/*                                    Images                                  */
+/******************************************************************************/
+
+	img {
+		border-style: none;
+	}
+
+	img, svg {
+		/* Intentionally not color-scheme aware. */
+		background: white;
+	}
+
+	/* For autogen numbers, add
+	  .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
+	*/
+
+	figure, .figure, .sidefigure {
+		page-break-inside: avoid;
+		text-align: center;
+		margin: 2.5em 0;
+	}
+	.figure img,	.sidefigure img,	figure img,
+	.figure object, .sidefigure object, figure object {
+		max-width: 100%;
+		margin: auto;
+		height: auto;
+	}
+	.figure pre, .sidefigure pre, figure pre {
+		text-align: left;
+		display: table;
+		margin: 1em auto;
+	}
+	.figure table, figure table {
+		margin: auto;
+	}
+	@media screen and (min-width: 20em) {
+		.sidefigure {
+			float: right;
+			width: 50%;
+			margin: 0 0 0.5em 0.5em;
+		}
+	}
+	.caption, figcaption, caption {
+		font-style: italic;
+		font-size: 90%;
+	}
+	.caption::before, figcaption::before, figcaption > .marker {
+		font-weight: bold;
+	}
+	.caption, figcaption {
+		counter-increment: figure;
+	}
+
+	/* DL list is indented 2em, but figure inside it is not */
+	dd > .figure, dd > figure { margin-left: -2em; }
+
+/******************************************************************************/
+/*                             Colored Boxes                                  */
+/******************************************************************************/
+
+	.issue, .note, .example, .assertion, .advisement, blockquote,
+	.amendment, .correction, .addition {
+		margin: 1em auto;
+		padding: .5em;
+		border: .5em;
+		border-left-style: solid;
+		page-break-inside: avoid;
+	}
+	span.issue, span.note {
+		padding: .1em .5em .15em;
+		border-right-style: solid;
+	}
+
+	blockquote > :first-child,
+	.note  > p:first-child,
+	.issue > p:first-child,
+	.amendment > p:first-child,
+	.correction > p:first-child,
+	.addition > p:first-child {
+		margin-top: 0;
+	}
+	blockquote > :last-child,
+	.note  > p:last-child,
+	.issue > p:last-child,
+	.amendment > p:last-child,
+	.correction > p:last-child,
+	.addition > p:last-child {
+		margin-bottom: 0;
+	}
+
+
+	.issue::before, .issue > .marker,
+	.example::before, .example > .marker,
+	.note::before, .note > .marker,
+	details.note > summary > .marker,
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary > .marker,
+	.addition::before, .addition > .marker,
+	addition.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	correction.amendment > summary > .marker
+	{
+		text-transform: uppercase;
+		padding-right: 1em;
+	}
+
+	.example::before, .example > .marker {
+		display: block;
+		padding-right: 0em;
+	}
+
+/** Blockquotes ***************************************************************/
+
+	blockquote {
+		border-color: silver;
+		border-color: var(--blockquote-border);
+		background: transparent;
+		background: var(--blockquote-bg);
+		color: currentcolor;
+		color: var(--blockquote-text);
+	}
+
+/** Open issue ****************************************************************/
+
+	.issue {
+		border-color: #e05252;
+		border-color: var(--issue-border);
+		background: #fbe9e9;
+		background: var(--issue-bg);
+		color: black;
+		color: var(--issue-text);
+		counter-increment: issue;
+		overflow: auto;
+	}
+	.issue::before, .issue > .marker {
+		color: #831616;
+		color: var(--issueheading-text);
+	}
+	/* Add .issue::before { content: "Issue " counter(issue) " "; } for autogen numbers,
+	  or use class="marker" to mark up the issue number in source. */
+
+/** Example *******************************************************************/
+
+	.example {
+		border-color: #e0cb52;
+		border-color: var(--example-border);
+		background: #fcfaee;
+		background: var(--example-bg);
+		color: black;
+		color: var(--example-text);
+		counter-increment: example;
+		overflow: auto;
+		clear: both;
+	}
+	.example::before, .example > .marker {
+		color: #574b0f;
+		color: var(--exampleheading-text);
+	}
+	/* Add .example::before { content: "Example " counter(example) " "; } for autogen numbers,
+	  or use class="marker" to mark up the example number in source. */
+
+/** Non-normative Note ********************************************************/
+
+	.note {
+		border-color: #52e052;
+		border-color: var(--note-border);
+		background: #e9fbe9;
+		background: var(--note-bg);
+		color: black;
+		color: var(--note-text);
+		overflow: auto;
+	}
+
+	.note::before, .note > .marker,
+	details.note > summary {
+		color: hsl(120, 70%, 30%);
+		color: var(--noteheading-text);
+	}
+	/* Add .note::before { content: "Note "; } for autogen label,
+	  or use class="marker" to mark up the label in source. */
+
+	details.note[open] > summary {
+		border-bottom: 1px silver solid;
+		border-bottom: 1px var(--notesummary-underline) solid;
+	}
+
+/** Assertion Box *************************************************************/
+	/*  for assertions in algorithms */
+
+	.assertion {
+		border-color: #AAA;
+		border-color: var(--assertion-border);
+		background: #EEE;
+		background: var(--assertion-bg);
+		color: black;
+		color: var(--assertion-text);
+	}
+
+/** Advisement Box ************************************************************/
+	/*  for attention-grabbing normative statements */
+
+	.advisement {
+		border-color: orange;
+		border-color: var(--advisement-border);
+		border-style: none solid;
+		background: #fec;
+		background: var(--advisement-bg);
+		color: black;
+		color: var(--advisement-text);
+	}
+	strong.advisement {
+		display: block;
+		text-align: center;
+	}
+	.advisement::before, .advisement > .marker {
+		color: #b35f00;
+		color: var(--advisementheading-text);
+	}
+
+/** Amendment Box *************************************************************/
+
+	.amendment, .correction, .addition {
+		border-color: #330099;
+		border-color: var(--amendment-border);
+		background: #F5F0FF;
+		background: var(--amendment-bg);
+		color: black;
+		color: var(--amendment-text);
+	}
+	.amendment.proposed, .correction.proposed, .addition.proposed {
+		border-style: solid;
+		border-block-width: 0.25em;
+	}
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary::before, details.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	details.correction > summary::before, details.correction > summary > .marker,
+	.addition::before, .addition > .marker,
+	details.addition > summary::before, details.addition > summary > .marker {
+		color: #220066;
+		color: var(--amendmentheading-text);
+	}
+	.amendment.proposed::before, .amendment.proposed > .marker,
+	details.amendment.proposed > summary::before, details.amendment.proposed > summary > .marker,
+	.correction.proposed::before, .correction.proposed > .marker,
+	details.correction.proposed > summary::before, details.correction.proposed > summary > .marker,
+	.addition.proposed::before, .addition.proposed > .marker,
+	details.addition.proposed > summary::before, details.addition.proposed > summary > .marker {
+		font-weight: bold;
+	}
+
+/** Spec Obsoletion Notice ****************************************************/
+	/* obnoxious obsoletion notice for older/abandoned specs. */
+
+	details {
+		display: block;
+	}
+	summary {
+		font-weight: bolder;
+	}
+
+	.annoying-warning:not(details),
+	details.annoying-warning:not([open]) > summary,
+	details.annoying-warning[open] {
+		background: hsla(40,100%,50%,0.95);
+		background: var(--warning-bg);
+		color: black;
+		color: var(--warning-text);
+		padding: .75em 1em;
+		border: red;
+		border: var(--warning-border);
+		border-style: solid none;
+		box-shadow: 0 2px 8px black;
+		text-align: center;
+	}
+	.annoying-warning :last-child {
+		margin-bottom: 0;
+	}
+
+@media not print {
+	details.annoying-warning[open] {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 2em;
+		z-index: 1000;
+	}
+}
+
+	details.annoying-warning:not([open]) > summary {
+		text-align: center;
+	}
+
+/** Entity Definition Boxes ***************************************************/
+
+	.def {
+		padding: .5em 1em;
+		background: #def;
+		background: var(--def-bg);
+		margin: 1.2em 0;
+		border-left: 0.5em solid #8ccbf2;
+		border-left: 0.5em solid var(--def-border);
+		color: black;
+		color: var(--def-text);
+	}
+
+/******************************************************************************/
+/*                                    Tables                                  */
+/******************************************************************************/
+
+	th, td {
+		text-align: left;
+		text-align: start;
+	}
+
+/** Property/Descriptor Definition Tables *************************************/
+
+	table.def {
+		/* inherits .def box styling, see above */
+		width: 100%;
+		border-spacing: 0;
+	}
+
+	table.def td,
+	table.def th {
+		padding: 0.5em;
+		vertical-align: baseline;
+		border-bottom: 1px solid #bbd7e9;
+		border-bottom: 1px solid var(--defrow-border);
+	}
+
+	table.def > tbody > tr:last-child th,
+	table.def > tbody > tr:last-child td {
+		border-bottom: 0;
+	}
+
+	table.def th {
+		font-style: italic;
+		font-weight: normal;
+		padding-left: 1em;
+		width: 3em;
+	}
+
+	/* For when values are extra-complex and need formatting for readability */
+	table td.pre {
+		white-space: pre-wrap;
+	}
+
+	/* A footnote at the bottom of a def table */
+	table.def td.footnote {
+		padding-top: 0.6em;
+	}
+	table.def td.footnote::before {
+		content: " ";
+		display: block;
+		height: 0.6em;
+		width: 4em;
+		border-top: thin solid;
+	}
+
+/** Data tables (and properly marked-up index tables) *************************/
+	/*
+		<table class="data"> highlights structural relationships in a table
+		when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
+
+		Use class="complex data" for particularly complicated tables --
+		(This will draw more lines: busier, but clearer.)
+
+		Use class="long" on table cells with paragraph-like contents
+		(This will adjust text alignment accordingly.)
+		Alternately use class="longlastcol" on tables, to have the last column assume "long".
+	*/
+
+	table {
+		word-wrap: normal;
+		overflow-wrap: normal;
+		hyphens: manual;
+	}
+
+	table.data,
+	table.index {
+		margin: 1em auto;
+		border-collapse: collapse;
+		border: hidden;
+		width: 100%;
+	}
+	table.data caption,
+	table.index caption {
+		max-width: 50em;
+		margin: 0 auto 1em;
+	}
+
+	table.data td,  table.data th,
+	table.index td, table.index th {
+		padding: 0.5em 1em;
+		border-width: 1px;
+		border-color: silver;
+		border-color: var(--datacell-border);
+		border-top-style: solid;
+	}
+
+	table.data thead td:empty {
+		padding: 0;
+		border: 0;
+	}
+
+	table.data  thead,
+	table.index thead,
+	table.data  tbody,
+	table.index tbody {
+		border-bottom: 2px solid;
+	}
+
+	table.data colgroup,
+	table.index colgroup {
+		border-left: 2px solid;
+	}
+
+	table.data  tbody th:first-child,
+	table.index tbody th:first-child  {
+		border-right: 2px solid;
+		border-top: 1px solid silver;
+		border-top: 1px solid var(--datacell-border);
+		padding-right: 1em;
+	}
+
+	table.data th[colspan],
+	table.data td[colspan] {
+		text-align: center;
+	}
+
+	table.complex.data th,
+	table.complex.data td {
+		border: 1px solid silver;
+		border: 1px solid var(--datacell-border);
+		text-align: center;
+	}
+
+	table.data.longlastcol td:last-child,
+	table.data td.long {
+		vertical-align: baseline;
+		text-align: left;
+	}
+
+	table.data img {
+		vertical-align: middle;
+	}
+
+
+/*
+Alternate table alignment rules
+
+	table.data,
+	table.index {
+		text-align: center;
+	}
+
+	table.data  thead th[scope="row"],
+	table.index thead th[scope="row"] {
+		text-align: right;
+	}
+
+	table.data  tbody th:first-child,
+	table.index tbody th:first-child  {
+		text-align: right;
+	}
+
+Possible extra rowspan handling
+
+	table.data  tbody th[rowspan]:not([rowspan='1']),
+	table.index tbody th[rowspan]:not([rowspan='1']),
+	table.data  tbody td[rowspan]:not([rowspan='1']),
+	table.index tbody td[rowspan]:not([rowspan='1']) {
+		border-left: 1px solid silver;
+	}
+
+	table.data  tbody th[rowspan]:first-child,
+	table.index tbody th[rowspan]:first-child,
+	table.data  tbody td[rowspan]:first-child,
+	table.index tbody td[rowspan]:first-child{
+		border-left: 0;
+		border-right: 1px solid silver;
+	}
+*/
+
+/******************************************************************************/
+/*                                  Indices                                   */
+/******************************************************************************/
+
+
+/** Table of Contents *********************************************************/
+
+	.toc a {
+		/* More spacing; use padding to make it part of the click target. */
+		padding: 0.1rem 1px 0;
+		/* Larger, more consistently-sized click target */
+		display: block;
+		/* Switch to using border-bottom for underlines */
+		text-decoration: none;
+		border-bottom: 1px solid;
+		/* Reverse color scheme */
+		color: black;
+		color: var(--toclink-text);
+		border-color: #3980b5;
+		border-color: var(--toclink-underline);
+	}
+	.toc a:visited {
+		color: black;
+		color: var(--toclink-visited-text);
+		border-color: #054572;
+		border-color: var(--toclink-visited-underline);
+	}
+	.toc a:focus,
+	.toc a:hover {
+		background: rgba(75%, 75%, 75%, .25);
+		background: var(--a-hover-bg);
+		border-bottom-width: 3px;
+		margin-bottom: -2px;
+	}
+	.toc a:not(:focus):not(:hover) {
+		/* Allow colors to cascade through from link styling */
+		border-bottom-color: transparent;
+	}
+
+	.toc, .toc ol, .toc ul, .toc li {
+		list-style: none; /* Numbers must be inlined into source */
+		/* because generated content isn't search/selectable and markers can't do multilevel yet */
+		margin:  0;
+		padding: 0;
+	}
+	.toc {
+		line-height: 1.1em;
+	}
+
+	/* ToC not indented until third level, but font style & margins show hierarchy */
+	.toc > li			{ font-weight: bold;   }
+	.toc > li li		 { font-weight: normal; }
+	.toc > li li li	  { font-size:   95%;	}
+	.toc > li li li li	{ font-size:   90%;	}
+	.toc > li li li li li { font-size:   85%;	}
+
+	/* @supports not (display:grid) { */
+		.toc > li			{ margin: 1.5rem 0;	}
+		.toc > li li		 { margin: 0.3rem 0;	}
+		.toc > li li li	  { margin-left: 2rem;   }
+
+		/* Section numbers in a column of their own */
+		.toc .secno {
+			float: left;
+			width: 4rem;
+			white-space: nowrap;
+		}
+		.toc > li li li li .secno { font-size: 85%; }
+		.toc > li li li li li .secno { font-size: 100%; }
+
+		.toc li {
+			clear: both;
+		}
+
+		:not(li) > .toc			 { margin-left:  5rem; }
+		.toc .secno				 { margin-left: -5rem; }
+		.toc > li li li .secno	  { margin-left: -7rem; }
+		.toc > li li li li .secno	{ margin-left: -9rem; }
+		.toc > li li li li li .secno { margin-left: -11rem; }
+
+		/* Tighten up indentation in narrow ToCs */
+		@media (max-width: 30em) {
+			:not(li) > .toc			 { margin-left:  4rem; }
+			.toc .secno				 { margin-left: -4rem; }
+			.toc > li li li			 { margin-left:  1rem; }
+			.toc > li li li .secno	  { margin-left: -5rem; }
+			.toc > li li li li .secno	{ margin-left: -6rem; }
+			.toc > li li li li li .secno { margin-left: -7rem; }
+		}
+		/* Loosen it on wide screens */
+		@media screen and (min-width: 78em) {
+			body:not(.toc-inline) :not(li) > .toc			 { margin-left:  4rem; }
+			body:not(.toc-inline) .toc .secno				 { margin-left: -4rem; }
+			body:not(.toc-inline) .toc > li li li			 { margin-left:  1rem; }
+			body:not(.toc-inline) .toc > li li li .secno	  { margin-left: -5rem; }
+			body:not(.toc-inline) .toc > li li li li .secno	{ margin-left: -6rem; }
+			body:not(.toc-inline) .toc > li li li li li .secno { margin-left: -7rem; }
+	}
+	/* } */
+
+	@supports (display:grid) and (display:contents) {
+		/* Use #toc over .toc to override non-@supports rules. */
+		#toc {
+			display: grid;
+			align-content: start;
+			grid-template-columns: auto 1fr;
+			grid-column-gap: 1rem;
+			column-gap: 1rem;
+			grid-row-gap: .6rem;
+			row-gap: .6rem;
+		}
+		#toc h2 {
+			grid-column: 1 / -1;
+			margin-bottom: 0;
+		}
+		#toc ol,
+		#toc li,
+		#toc a {
+			display: contents;
+			/* Switch <a> to subgrid when supported */
+		}
+		#toc span {
+			margin: 0;
+		}
+		#toc > .toc > li > a > span {
+			/* The spans of the top-level list,
+			  comprising the first items of each top-level section. */
+			margin-top: 1.1rem;
+		}
+		#toc#toc .secno { /* Ugh, need more specificity to override base.css */
+			grid-column: 1;
+			width: auto;
+			margin-left: 0;
+		}
+		#toc .content {
+			grid-column: 2;
+			width: auto;
+			margin-right: 1rem;
+		}
+		#toc .content:hover,
+		#toc .content:focus {
+			background: rgba(75%, 75%, 75%, .25);
+			background: var(--a-hover-bg);
+			border-bottom: 3px solid #054572;
+			border-bottom: 3px solid var(--toclink-underline);
+			margin-bottom: -3px;
+		}
+		#toc li li li .content {
+			margin-left: 1rem;
+		}
+		#toc li li li li .content {
+			margin-left: 2rem;
+		}
+	}
+
+
+/** Index *********************************************************************/
+
+	/* Index Lists: Layout */
+	ul.index	  { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
+	ul.index li	{ margin-left: 0; list-style: none; break-inside: avoid; }
+	ul.index li li { margin-left: 1em; }
+	ul.index dl	{ margin-top: 0; }
+	ul.index dt	{ margin: .2em 0 .2em 20px;}
+	ul.index dd	{ margin: .2em 0 .2em 40px;}
+	/* Index Lists: Typography */
+	ul.index ul,
+	ul.index dl { font-size: smaller; }
+	@media not print {
+		ul.index li a + span {
+			white-space: nowrap;
+			color: transparent; }
+		ul.index li a:hover + span,
+		ul.index li a:focus + span {
+			color: #707070;
+			color: var(--indexinfo-text);
+		}
+	}
+
+/** Index Tables *****************************************************/
+	/* See also the data table styling section, which this effectively subclasses */
+
+	table.index {
+		font-size: small;
+		border-collapse: collapse;
+		border-spacing: 0;
+		text-align: left;
+		margin: 1em 0;
+	}
+
+	table.index td,
+	table.index th {
+		padding: 0.4em;
+	}
+
+	table.index tr:hover td:not([rowspan]),
+	table.index tr:hover th:not([rowspan]) {
+		color: black;
+		color: var(--indextable-hover-text);
+		background: #f7f8f9;
+		background: var(--indextable-hover-bg);
+	}
+
+	/* The link in the first column in the property table (formerly a TD) */
+	table.index th:first-child a {
+		font-weight: bold;
+	}
+
+/** Outdated warning **********************************************************/
+
+.outdated-spec {
+	color: black;
+	color: var(--outdatedspec-text);
+	background-color: rgba(0,0,0,0.5);
+	background-color: var(--outdatedspec-bg);
+}
+
+.outdated-warning {
+	position: fixed;
+	bottom: 50%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 50%;
+	background: maroon;
+	background: var(--outdated-bg);
+	color: white;
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	position: absolute;
+	top: 0;
+	right:0;
+	margin: 0;
+	border: 0;
+	padding: 0.25em 0.5em;
+	background: transparent;
+	color: white;
+	color: var(--outdated-text);
+	font:1em sans-serif;
+	text-align:center;
+}
+
+.outdated-warning span {
+	display: block;
+}
+
+.outdated-collapsed {
+	bottom: 0;
+	border-radius: 0;
+	width: 100%;
+	padding: 0;
+}
+
+/******************************************************************************/
+/*                                    Print                                   */
+/******************************************************************************/
+
+	@media print {
+		/* Pages have their own margins. */
+		html {
+			margin: 0;
+		}
+		/* Serif for print. */
+		body {
+			font-family: serif;
+		}
+
+		.outdated-warning {
+			position: absolute;
+			border-style: solid;
+			border-color: red;
+		}
+
+		.outdated-warning input {
+			display: none;
+		}
+	}
+	@page {
+		margin: 1.5cm 1.1cm;
+	}
+
+
+
+/******************************************************************************/
+/*                             Overflow Control                               */
+/******************************************************************************/
+
+	.figure .caption, .sidefigure .caption, figcaption {
+		/* in case figure is overlarge, limit caption to 50em */
+		max-width: 50rem;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.overlarge {
+		/* Magic to create good item positioning:
+		  "content column" is 50ems wide at max; less on smaller screens.
+		  Extra space (after ToC + content) is empty on the right.
+
+		  1. When item < content column, centers item in column.
+		  2. When content < item < available, left-aligns.
+		  3. When item > available, fills available + scroll bar.
+		*/
+		display: grid;
+		grid-template-columns: minmax(0, 50em);
+	}
+	.overlarge > table {
+		/* limit preferred width of table */
+		max-width: 50em;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	@media (min-width: 55em) {
+		.overlarge {
+			margin-right: calc(13px + 26.5rem - 50vw);
+			max-width: none;
+		}
+	}
+	@media screen and (min-width: 78em) {
+		body:not(.toc-inline) .overlarge {
+			/* 30.5em body padding 50em content area */
+			margin-right: calc(40em - 50vw) !important;
+		}
+	}
+	@media screen and (min-width: 90em) {
+		body:not(.toc-inline) .overlarge {
+			/* 4em html margin 30.5em body padding 50em content area */
+			margin-right: calc(84.5em - 100vw) !important;
+		}
+	}
+
+	@media not print {
+		.overlarge {
+			overflow-x: auto;
+			/* See Lea Verou's explanation background-attachment:
+			* http://lea.verou.me/2012/04/background-attachment-local/
+			*
+			background: top left  / 4em 100% linear-gradient(to right,  #ffffff, rgba(255, 255, 255, 0)) local,
+						top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
+						top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						white;
+			background-repeat: no-repeat;
+			*/
+		}
+	}
+</style>
+  <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
+  <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
+  <meta content="00698d04dd54396af5c7829a93d31339403cf4a1" name="document-revision">
+<style>/* style-autolinks */
+.css.css, .property.property, .descriptor.descriptor {
+    color: var(--a-normal-text);
+    font-size: inherit;
+    font-family: inherit;
+}
+.css::before, .property::before, .descriptor::before {
+    content: "‘";
+}
+.css::after, .property::after, .descriptor::after {
+    content: "’";
+}
+.property, .descriptor {
+    /* Don't wrap property and descriptor names */
+    white-space: nowrap;
+}
+.type { /* CSS value <type> */
+    font-style: italic;
+}
+pre .property::before, pre .property::after {
+    content: "";
+}
+[data-link-type="property"]::before,
+[data-link-type="propdesc"]::before,
+[data-link-type="descriptor"]::before,
+[data-link-type="value"]::before,
+[data-link-type="function"]::before,
+[data-link-type="at-rule"]::before,
+[data-link-type="selector"]::before,
+[data-link-type="maybe"]::before {
+    content: "‘";
+}
+[data-link-type="property"]::after,
+[data-link-type="propdesc"]::after,
+[data-link-type="descriptor"]::after,
+[data-link-type="value"]::after,
+[data-link-type="function"]::after,
+[data-link-type="at-rule"]::after,
+[data-link-type="selector"]::after,
+[data-link-type="maybe"]::after {
+    content: "’";
+}
+
+[data-link-type].production::before,
+[data-link-type].production::after,
+.prod [data-link-type]::before,
+.prod [data-link-type]::after {
+    content: "";
+}
+
+[data-link-type=element],
+[data-link-type=element-attr] {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: .9em;
+}
+[data-link-type=element]::before { content: "<" }
+[data-link-type=element]::after  { content: ">" }
+
+[data-link-type=biblio] {
+    white-space: pre;
+}
+</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #bbb;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #707070;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}
+</style>
+<style>/* style-counters */
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}
+</style>
+<style>/* style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    min-width: min-content;
+    max-width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-issues */
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* style-md-lists */
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-syntax-highlighting */
+
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
+ <body class="h-entry">
+  <div class="head">
+   <p data-fill-with="logo"></p>
+   <h1 class="p-name no-ref" id="title">Journal des événements du cycle de vie de l’artefact</h1>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Standard, <time class="dt-updated" datetime="2023-11-29">29 November 2023</time></span></h2>
+   <div data-fill-with="spec-metadata">
+    <dl>
+     <dt>This version:
+     <dd><a class="u-url" href="https://mellonscholarlycommunication.github.io/spec-eventlog">https://mellonscholarlycommunication.github.io/spec-eventlog</a>
+     <dt>Issue Tracking:
+     <dd><a href="https://github.com/Patent2net/spec-eventlog/issues/">GitHub</a>
+     <dt class="editor">Editors:
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:miel.vandersande@meemoo.be">Miel Vander Sande</a> (<span class="p-org org"><a href="https://meemoo.be">meemoo - Institut flamand pour les archives</a></span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:patrick.hochstenbach@ugent.be">Patrick Hochstenbach</a> (<span class="p-org org"><a href="https://knows.idlab.ugent.be">IDLab - Université de Gand</a></span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:ruben.dedecker@ugent.be">Ruben Dedecker</a> (<span class="p-org org"><a href="https://knows.idlab.ugent.be">IDLab - Université de Gand</a></span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:Jeroen.Werbrouck@ugent.be">Jeroen Werbrouck</a> (<span class="p-org org"><a href="https://knows.idlab.ugent.be">IDLab - Université de Gand</a></span>)
+    </dl>
+   </div>
+   <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
+and related or neighboring rights to this work.
+In addition, as of 29 November 2023,
+the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
+which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
+Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
+   <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>Ce document spécifie les exigences pour mettre en œuvre et héberger un Journal des événements du cycle de vie de l’artefact.</p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <nav data-fill-with="table-of-contents" id="toc">
+   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
+   <ol class="toc" role="directory">
+    <li><a href="#set"><span class="secno">1</span> <span class="content">Ensemble de documents</span></a>
+    <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
+    <li><a href="#conventions"><span class="secno">3</span> <span class="content">Conventions du document</span></a>
+    <li>
+     <a href="#applications-du-journal-dvnements-du-cycle-de-vie-de-lartefact"><span class="secno">4</span> <span class="content">Applications du Journal d’événements du cycle de vie de l’artefact</span></a>
+     <ol class="toc">
+      <li><a href="#tablir-la-confiance-dans-lintgrit-dun-artefact"><span class="secno">4.1</span> <span class="content">Établir la confiance dans l’intégrité d’un artefact</span></a>
+      <li><a href="#dcouverte-dentits-sur-le-rseau"><span class="secno">4.2</span> <span class="content">Découverte d’entités sur le réseau</span></a>
+     </ol>
+    <li><a href="#overview"><span class="secno">5</span> <span class="content">Vue d’ensemble</span></a>
+    <li>
+     <a href="#vocabulaire"><span class="secno">6</span> <span class="content">Vocabulaire</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#types"><span class="secno">6.1</span> <span class="content">Types</span></a>
+       <ol class="toc">
+        <li><a href="#type-artefact"><span class="secno">6.1.1</span> <span class="content">Type: <span>daen:Artefact</span></span></a>
+        <li><a href="#type-lifecycle-event"><span class="secno">6.1.2</span> <span class="content">Type : <span>daen:LifecycleEvent</span></span></a>
+        <li><a href="#type-lifecycle-event-log"><span class="secno">6.1.3</span> <span class="content">Type : <span>daen:ArtefactLifecycleEventLog</span></span></a>
+        <li><a href="#type-maintainer"><span class="secno">6.1.4</span> <span class="content">Type : <span>daen:Maintainer</span></span></a>
+        <li><a href="#type-service-hub"><span class="secno">6.1.5</span> <span class="content">Type: <span>daen:ServiceHub</span></span></a>
+       </ol>
+      <li>
+       <a href="#proprits"><span class="secno">6.2</span> <span class="content">Propriétés</span></a>
+       <ol class="toc">
+        <li><a href="#property-eventlog"><span class="secno">6.2.1</span> <span class="content">Propriété : <span>daen:eventLog</span></span></a>
+        <li><a href="#property-iseventlogof"><span class="secno">6.2.2</span> <span class="content">Propriété : <span>daen:isEventLogOf</span></span></a>
+        <li><a href="#property-artefact"><span class="secno">6.2.3</span> <span class="content">Propriété : <span>daen:artefact</span></span></a>
+        <li><a href="#property-maintainer"><span class="secno">6.2.4</span> <span class="content">Propriété : <span>daen:maintainer</span></span></a>
+        <li><a href="#property-executor"><span class="secno">6.2.5</span> <span class="content">Propriété: <span>daen:executor</span></span></a>
+        <li>
+         <a href="#proprits-externes"><span class="secno">6.2.6</span> <span class="content">Propriétés externes</span></a>
+         <ol class="toc">
+          <li><a href="#property-contains"><span class="secno">6.2.6.1</span> <span class="content">Propriété: <span>ldp:contains</span></span></a>
+          <li><a href="#property-generated"><span class="secno">6.2.6.2</span> <span class="content">Propriété: <span>prov:generated</span></span></a>
+          <li><a href="#property-startedattime"><span class="secno">6.2.6.3</span> <span class="content">Propriété: <span>prov:startedAtTime</span></span></a>
+          <li><a href="#property-endedattime"><span class="secno">6.2.6.4</span> <span class="content">Propriété: <span>prov:endedAtTime</span></span></a>
+          <li><a href="#property-title"><span class="secno">6.2.6.5</span> <span class="content">Propriété: <span>dct:title</span></span></a>
+          <li><a href="#property-signature"><span class="secno">6.2.6.6</span> <span class="content">Propriété: <span>sec:signature</span></span></a>
+          <li><a href="#property-creator"><span class="secno">6.2.6.7</span> <span class="content">Propriété: <span>sec:creator</span></span></a>
+         </ol>
+       </ol>
+      <li><a href="#signature-des-vnements-du-cycle-de-vie"><span class="secno">6.3</span> <span class="content">Signature des événements du cycle de vie</span></a>
+     </ol>
+    <li>
+     <a href="#discovery"><span class="secno">7</span> <span class="content">Découverte d’un journal des événements du cycle de vie d’un Artefact</span></a>
+     <ol class="toc">
+      <li><a href="#discovery-link"><span class="secno">7.1</span> <span class="content">Découverte via lien</span></a>
+      <li><a href="#discovery-shapetrees"><span class="secno">7.2</span> <span class="content">Découverte via les Shape Trees</span></a>
+     </ol>
+    <li>
+     <a href="#producing"><span class="secno">8</span> <span class="content">Ajout d’événements du cycle de vie</span></a>
+     <ol class="toc">
+      <li><a href="#producing-pagination"><span class="secno">8.1</span> <span class="content">Pagination</span></a>
+     </ol>
+    <li>
+     <a href="#consuming"><span class="secno">9</span> <span class="content">Consommer un journal des événements du cycle de vie de l’artefact</span></a>
+     <ol class="toc">
+      <li><a href="#consuming-pagination"><span class="secno">9.1</span> <span class="content">Pagination</span></a>
+     </ol>
+    <li>
+     <a href="#authorization"><span class="secno">10</span> <span class="content">Autorisation</span></a>
+     <ol class="toc">
+      <li><a href="#authorization-read"><span class="secno">10.1</span> <span class="content">Autorisation de lecture</span></a>
+      <li><a href="#authorization-append"><span class="secno">10.2</span> <span class="content">Ajout d’autorisation</span></a>
+      <li><a href="#authorization-permissions"><span class="secno">10.3</span> <span class="content">Mise à jour des autorisations d’autorisation</span></a>
+      <li><a href="#authorization-specific-update"><span class="secno">10.4</span> <span class="content">Autorisation spécifique à la mise à jour d’un événement</span></a>
+     </ol>
+    <li>
+     <a href="#validation"><span class="secno">11</span> <span class="content">Validation d’un journal des événements du cycle de vie de l’artefact</span></a>
+     <ol class="toc">
+      <li><a href="#validation-link-header"><span class="secno">11.1</span> <span class="content">En-tête de lien de validation</span></a>
+      <li><a href="#validation-in-body-link"><span class="secno">11.2</span> <span class="content">Validation du lien dans le corps</span></a>
+      <li><a href="#validation-shape-tree"><span class="secno">11.3</span> <span class="content">Validation de l’arborescence de forme</span></a>
+     </ol>
+    <li><a href="#remerciements"><span class="secno">12</span> <span class="content">Remerciements</span></a>
+    <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
+     <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
+     <ol class="toc">
+      <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+     </ol>
+   </ol>
+  </nav>
+  <main>
+   <h2 class="heading settled" data-level="1" id="set"><span class="secno">1. </span><span class="content">Ensemble de documents</span><a class="self-link" href="#set"></a></h2>
+   <p>Ce document fait partie des spécifications produites par les projets <strong>ResearcherPod</strong> et <strong>ErfgoedPod</strong> :</p>
+   <ol>
+    <li data-md>
+     <p><a href="/spec-overview/">Aperçu</a></p>
+    <li data-md>
+     <p><a href="/spec-orchestrator/">Orchestrator</a></p>
+    <li data-md>
+     <p><a href="/spec-datapod/">Pod de données</a></p>
+    <li data-md>
+     <p><a href="/spec-rulelanguage/">Langage de règles</a></p>
+    <li data-md>
+     <p><a href="/spec-eventlog/">Journal des événements du cycle de vie de l’artefact</a> (ce document)</p>
+    <li data-md>
+     <p><a href="/spec-notifications/">Notifications</a></p>
+    <li data-md>
+     <p><a href="/spec-collector/">Collecteur</a></p>
+   </ol>
+   <h2 class="heading settled" data-level="2" id="intro"><span class="secno">2. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
+    Dans un réseau décentralisé,
+un artefact peut être partagé entre des acteurs et traité par une multitude de services,
+chacun ajoutant à la durée de vie de l’artefact.
+Pour chaque artefact, une série d’événements de durée de vie est donc répartie sur le réseau.
+Ce document présente le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>,
+un format de données et un protocole pour l’enregistrement et la découverte de ces événements,
+afin de servir principalement les applications liées à la gouvernance du réseau. 
+   <p>Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> est une ressource Web publique, centrée sur l’artefact, en ajout seul, qui expose une série d’événements de durée de vie.
+Ces événements sont enregistrés à l’aide d’un vocabulaire de données encodé dans <a data-link-type="biblio" href="#biblio-rdf11-concepts" title="RDF 1.1 Concepts and Abstract Syntax">RDF</a> pour assurer une interopérabilité à l’échelle du réseau.
+En pratique,
+le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> sera souvent une implémentation de ressource <a data-link-type="biblio" href="#biblio-ldp" title="Linked Data Platform 1.0">[LDP]</a> qui est nativement prise en charge par un <a href="https://solidproject.org/TR/protocol#data-pod">Pod de données Solid</a>.
+Il est important de noter, cependant, que, similaire à <a data-link-type="biblio" href="#biblio-ldn" title="Linked Data Notifications">[LDN]</a>, un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> est une utilisation spécialisée de la plate-forme de données liées <a data-link-type="biblio" href="#biblio-ldp" title="Linked Data Platform 1.0">[LDP]</a> et ne dépend pas d’une implémentation complète de LDP.
+Il ne nécessite qu’un sous-ensemble minimal qui est facile à implémenter.</p>
+   <p>Ce document décrit</p>
+   <ul>
+    <li data-md>
+     <p>un vocabulaire de données compatible avec <a data-link-type="biblio" href="#biblio-prov-o" title="PROV-O: The PROV Ontology">PROV-O</a> et <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary" title="Activity Vocabulary">Activity Streams 2.0</a> pour décrire les informations sur les événements et journaux de durée de vie;</p>
+    <li data-md>
+     <p>la définition de la ressource Web d’un <a data-link-type="dfn">Artefact Lifecycle Event Log</a>;</p>
+    <li data-md>
+     <p>des méthodes pour découvrir les <a data-link-type="dfn">Artefact Lifecycle Event Log</a>;</p>
+    <li data-md>
+     <p>le processus d’ajout et de récupération des informations d'=événement de durée de vie= dans le journal.</p>
+   </ul>
+   <h2 class="heading settled" data-level="3" id="conventions"><span class="secno">3. </span><span class="content">Conventions du document</span><a class="self-link" href="#conventions"></a></h2>
+   <p>Dans ce document, les préfixes d’espace de noms suivantes sont utilisés:</p>
+   <p></p>
+   <table>
+    <thead>
+     <tr>
+      <th>Préfixe
+      <th>Espace de noms
+    <tbody>
+     <tr>
+      <td>as
+      <td>https://www.w3.org/ns/activitystreams#
+     <tr>
+      <td>daen
+      <td>http://www.w3.org/ns/solid/daen#
+     <tr>
+      <td>ldp
+      <td>http://www.w3.org/ns/ldp#
+     <tr>
+      <td>prov
+      <td>http://www.w3.org/ns/prov#
+     <tr>
+      <td>dcat
+      <td>http://www.w3.org/ns/dcat#
+     <tr>
+      <td>ldes
+      <td>https://w3id.org/ldes#
+     <tr>
+      <td>st
+      <td>http://www.w3.org/ns/st#
+     <tr>
+      <td>acl
+      <td>http://www.w3.org/ns/auth/acl#
+     <tr>
+      <td>hydra
+      <td>http://www.w3.org/ns/hydra/core#
+   </table>
+   <h2 class="heading settled" data-level="4" id="applications-du-journal-dvnements-du-cycle-de-vie-de-lartefact"><span class="secno">4. </span><span class="content">Applications du Journal d’événements du cycle de vie de l’artefact</span><a class="self-link" href="#applications-du-journal-dvnements-du-cycle-de-vie-de-lartefact"></a></h2>
+   <p>Un <a data-link-type="dfn">Réseau d’échange décentralisé d’artefacts</a> peut soutenir les communautés dans l’échange d’artefacts numériques et de services sans avoir besoin d’une autorité centrale.
+Les données sur ces échanges sont donc distribuées sur chaque acteur du réseau.
+Cela intensifie le contrôle d’un acteur sur ses données et réduit considérablement la duplication des données,
+mais rend également plus difficile d’obtenir une image claire de l’historique d’un artefact.
+Il n’y a plus d’autorité de confiance unique qui enregistre et certifie qui a appliqué quels services à un artefact et quand.
+Dans un <a data-link-type="dfn">Réseau d’échange décentralisé d’artefacts</a>,
+cette information doit être collectée auprès de différents acteurs ayant des niveaux de confiance variables.
+Le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> fournit les bases essentielles pour publier les cycles de vie des artefacts et ainsi soutenir ce processus de collecte.En bref,
+un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> enregistre les événements du cycle de vie que l’instance du <a data-link-type="dfn">Réseau d’Échange d’Artéfacts Décentralisé</a> souhaite voir publiés.
+Cela est déterminé par la nature du réseau, les cas d’utilisation qu’il prend en charge et la manière dont les informations sur le cycle de vie sont utilisées.
+Typiquement, une instance de réseau requiert que ces événements soient de notoriété publique pour garantir son bon fonctionnement.
+Par exemple, un réseau alimentaire pourrait souhaiter la publication d’un processus d’inspection sanitaire terminé.
+Il est donc présumé que la fraction dominante des acteurs participants éprouvera suffisamment d’incitation à héberger un <a data-link-type="dfn">Réseau d’Échange d’Artéfacts Décentralisé</a> disponible pour tous les acteurs du réseau ; et enregistrer précisément les événements du cycle de vie sélectionnés.
+Cette approche pragmatique est nécessaire car aucune conception décentralisée ne peut contraindre les acteurs à se conformer, tout en restant vraiment évolutive.</p>
+   <p>Ce document propose un modèle de données sémantiques minimal pour construire et publier des événements du cycle de vie de l’artefact, qui sert de base pour l’interopérabilité technique,
+Il est attendu qu’une communauté qui utilise une instance d’un <a data-link-type="dfn">Réseau d’Échange d’Artéfacts Décentralisé</a> étende ce modèle avec des types d’événements spécifiques au domaine qui fournissent plus de sens et de compréhension au sein de l’instance du réseau.
+Une communauté peut également exploiter les informations sur le cycle de vie comme bon lui semble, ce qui donne lieu à une ou plusieurs applications des <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
+Quelques applications probables sont présentées ci-dessous :</p>
+   <h3 class="heading settled" data-level="4.1" id="tablir-la-confiance-dans-lintgrit-dun-artefact"><span class="secno">4.1. </span><span class="content">Établir la confiance dans l’intégrité d’un artefact</span><a class="self-link" href="#tablir-la-confiance-dans-lintgrit-dun-artefact"></a></h3>
+   <p>Dans certains domaines, la valeur d’un artefact dépend de son cycle de vie reconstitué et de la confiance accordée à ce cycle de vie. Par exemple, dans la communication savante, une publication acquiert un statut après avoir été certifiée par un service de certification (par exemple, par un processus d’évaluation par les pairs). Un tel événement de cycle de vie devrait être enregistré dans les <a data-link-type="dfn">Artefact Lifecycle Event Log</a> des deux parties. Lors de la reconstitution du cycle de vie de l’artefact pour évaluer son intégrité, le fait de rencontrer de tels événements à plusieurs endroits augmente la confiance.</p>
+   <h3 class="heading settled" data-level="4.2" id="dcouverte-dentits-sur-le-rseau"><span class="secno">4.2. </span><span class="content">Découverte d’entités sur le réseau</span><a class="self-link" href="#dcouverte-dentits-sur-le-rseau"></a></h3>
+   <p>Un processus qui collecte des informations décentralisées a besoin d’un moyen de naviguer dans le réseau et de découvrir de nouveaux artefacts. Étant donné la taille potentielle du réseau, de nombreux pods de données sont encore inconnus lorsque ce processus démarre. La découverte de pods inconnus repose sur les liens existants entre les acteurs et les artefacts. Par conséquent, un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> peut être utilisé pour trouver ces liens et servir de mécanisme de routage. Par exemple, dans un réseau du patrimoine numérique, un portail souhaite découvrir des données pertinentes stockées dans des pods contrôlés par des institutions du patrimoine culturel. Ne connaissant pas l’emplacement de ces pods à l’avance, le portail pourrait consulter d’abord le journal d’événements d’un hub de service de registre pour trouver des liens vers tous les ensembles de données qui y ont été enregistrés.</p>
+   <h2 class="heading settled" data-level="5" id="overview"><span class="secno">5. </span><span class="content">Vue d’ensemble</span><a class="self-link" href="#overview"></a></h2>
+    Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> est une ressource Web accessible par tous les acteurs à l’intérieur d’un seul réseau. Lorsqu’il est demandé, il renvoie une liste ordonnée de descriptions d’événements notables du cycle de vie, contenant chacune le quoi, le qui et le quand de l’événement. Un acteur peut stocker de nouvelles descriptions en mettant à jour cette ressource. Le journal maintient un ordre chronologique; de nouveaux événements sont ajoutés à la fin du journal. Par conséquent, il DOIT prendre en charge les producteurs ajoutant des événements tels que décrit dans <a href="#producing">§ 8 Ajout d’événements du cycle de vie</a>. Il PEUT également valider les <a data-link-type="dfn">Événements du cycle de vie</a> avant leur ajout conformément à <a href="#validation">§ 11 Validation d’un journal des événements du cycle de vie de l’artefact</a>.Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être consommable par des acteurs autorisés dans le réseau conformément à <a href="#consuming">§ 9 Consommer un journal des événements du cycle de vie de l’artefact</a>. 
+Son URL DOIT être découvrable par l’un des moyens décrits dans <a href="#discovery">§ 7 Découverte d’un journal des événements du cycle de vie d’un Artefact</a>. 
+Les acteurs du réseau PEUVENT être autorisés à lire, ajouter ou modifier les autorisations en fonction du mécanisme d’autorisation dans <a href="#authorization">§ 10 Autorisation</a>. 
+Les événements du cycle de vie DOIVENT être décrits dans le vocabulaire de données du cycle de vie de l’artefact tel que défini dans <a href="#vocabulaire">§ 6 Vocabulaire</a>. 
+Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être disponible dans le format <a data-link-type="biblio" href="#biblio-json-ld11" title="JSON-LD 1.1">[json-ld11]</a>, 
+mais il PEUT également prendre en charge d’autres formats de données grâce à la négociation de contenu. 
+   <p>Bien que ce ne soit pas obligatoire, il est attendu que chaque acteur dans le réseau héberge un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> par artefact connu pour permettre une gouvernance efficace du réseau.
+Ainsi, un seul <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT correspondre à au moins un <a data-link-type="dfn">artefact</a> dans le réseau, 
+tandis qu’un <a data-link-type="dfn">artefact</a> PEUT correspondre à plusieurs <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+   <figure>
+     <img src="images/logs.png" width="100%"> 
+    <figcaption> Alice et Bob ont des pods de données contenant deux ressources : un artefact et un Journal des événements du cycle de vie de l’artefact. 
+	Les hubs de services hébergent également une ressource Journal des événements du cycle de vie de l’artefact. 
+	Comme le hub de service B certifie des artefacts, l’événement du cycle de vie selon lequel l’artefact A d’Alice a été certifié est consigné dans les journaux d’Alice et du hub de service B. 
+	De plus, Bob a fait un commentaire sur l’Artéfact B d’Alice, donc les journaux des deux acteurs contiennent l’événement du cycle de vie selon lequel l’artefact A a été commenté par Bob. </figcaption>
+   </figure>
+   <h2 class="heading settled" data-level="6" id="vocabulaire"><span class="secno">6. </span><span class="content">Vocabulaire</span><a class="self-link" href="#vocabulaire"></a></h2>
+   <p>Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> est décrit à l’aide d’un vocabulaire de données minimal, introduisant un certain nombre de types sémantiques de haut niveau et de propriétés.
+Le <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="vocabulaire-des-vnements-du-cycle-de-vie-dartefact">Vocabulaire des événements du cycle de vie d’artefact</dfn> peut être utilisé pour construire une représentation <a data-link-type="biblio" href="#biblio-rdf-primer" title="RDF Primer">RDF 1.1</a> du journal et des événements du cycle de vie qu’il contient.
+Le vocabulaire de données est entièrement compatible avec <a data-link-type="biblio" href="#biblio-prov-o" title="PROV-O: The PROV Ontology">PROV-O</a> et les types d’objets provenant de <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary" title="Activity Vocabulary">Activity Streams 2.0</a>.
+Une vue d’ensemble est donnée dans la figure ci-dessous.</p>
+   <figure>
+     <img src="images/classes.svg" width="100%"> 
+    <figcaption> Un diagramme du Vocabulaire des événements du cycle de vie d’artefact </figcaption>
+   </figure>
+   <p>Les exemples dans le document utilisent un <a href="examples/context.jsonld">contexte JSON-LD conforme prédéfini</a> conforme au <a data-link-type="dfn" href="#vocabulaire-des-vnements-du-cycle-de-vie-dartefact" id="ref-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact">Vocabulaire des événements du cycle de vie d’artefact</a>.</p>
+   <p>Problème : ajouter une explication de haut niveau</p>
+   <h3 class="heading settled" data-level="6.1" id="types"><span class="secno">6.1. </span><span class="content">Types</span><a class="self-link" href="#types"></a></h3>
+   <p>Le tableau suivant répertorie les types du <a data-link-type="dfn" href="#vocabulaire-des-vnements-du-cycle-de-vie-dartefact" id="ref-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact①">Vocabulaire des événements du cycle de vie d’artefact</a>.
+Ces types sémantiques distinguent les différentes ressources et acteurs impliqués dans le cycle de vie d’un artefact.</p>
+   <dl>
+    <dt data-md>Base URI:
+    <dd data-md>
+     <p><code>http://www.w3.org/ns/solid/daen#</code></p>
+    <dt data-md>Préfixe préféré:
+    <dd data-md>
+     <p><code>daen</code></p>
+    <dt data-md>Classes:
+    <dd data-md>
+     <p><a href="#type-artefact">daen:Artefact</a> | <a href="#type-lifecycle-event">daen:LifecycleEvent</a> | <a href="#type-lifecycle-event-log">daen:ArtefactLifecycleEventLog</a> | <a href="#type-maintainer">daen:Maintainer</a> | <a href="#type-service-hub">daen:ServiceHub</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.1.1" id="type-artefact"><span class="secno">6.1.1. </span><span class="content">Type: <a href="http://www.w3.org/ns/solid/daen#Artefact">daen:Artefact</a></span><a class="self-link" href="#type-artefact"></a></h4>
+   <p><strong>URI:</strong> http://www.w3.org/ns/solid/daen#Artefact</p>
+   <p>Une ressource Web et un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">artefact</a> qui est l’objet d’interaction entre des <a data-link-type="dfn">acteurs</a> et conserve un cycle de vie au sein du réseau.</p>
+   <p><strong>Exemple:</strong></p>
+<pre class="include-code highlight"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Artefact"</c-><c- p>,</c-><c- u>"prov:Entity"</c-><c- p>,</c-><c- u>"as:Document"</c-><c- p>],</c->
+  <c- f>"name"</c-><c- p>:</c-> <c- u>"Publication about WOII"</c->
+<c- p>}</c->
+</pre>
+   <dl>
+    <dt data-md>Sous-classe de :
+    <dd data-md>
+     <p><a href="https://www.w3.org/ns/activitystreams#Object">as:Object</a>, <a href="https://www.w3.org/TR/prov-o/#Entity">prov:Entity</a></p>
+    <dt data-md>Propriétés :
+    <dd data-md>
+     <p><a href>daen:eventLog</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.1.2" id="type-lifecycle-event"><span class="secno">6.1.2. </span><span class="content">Type : <a href="http://www.w3.org/ns/solid/daen#LifecycleEvent">daen:LifecycleEvent</a></span><a class="self-link" href="#type-lifecycle-event"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#LifecycleEvent</code></p>
+   <p>Un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event">Événement du cycle de vie de l’artefact</a> qui a eu un impact sur le cycle de vie d’un certain <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> et qui est utile au bon fonctionnement du réseau. Ils résultent souvent d’un <a data-link-type="dfn">acteur</a> réalisant un service lié à cet <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
+   <p><strong>Exemple :</strong></p>
+<pre class="include-code highlight"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#1"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"LifecycleEvent"</c-><c- p>,</c->
+  <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was registered."</c-><c- p>,</c->
+  <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T01:01:01Z"</c-><c- p>,</c->
+  <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T02:02:02Z"</c-><c- p>,</c->
+  <c- f>"artefact"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c->
+  <c- p>},</c->
+  <c- f>"executor"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c->
+  <c- p>},</c->
+  <c- f>"generated"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/registration/23813178"</c->
+  <c- p>}</c->
+<c- p>}</c-></pre>
+   <dl>
+    <dt data-md>Sous-classe de :
+    <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#Activity">prov:Activity</a></p>
+    <dt data-md>Propriétés :
+    <dd data-md>
+     <p><a href>daen:executor</a>, <a href>daen:artefact</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.1.3" id="type-lifecycle-event-log"><span class="secno">6.1.3. </span><span class="content">Type : <a href="http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog">daen:ArtefactLifecycleEventLog</a></span><a class="self-link" href="#type-lifecycle-event-log"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog</code></p>
+   <p>Une ressource Web et un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Journal d’événements du cycle de vie d’artefact</a> qui expose une collection ordonnée de ressources d'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event">Événements du cycle de vie d’artefact</a> liés à certains <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
+   <p><strong>Exemple :</strong></p>
+<pre class="include-code highlight"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"ArtefactLifecycleEventLog"</c-><c- p>,</c->
+  <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact Lifecycle Event Log"</c-><c- p>,</c->
+  <c- f>"isEventLogOf"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+    <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Artefact"</c-><c- p>,</c-><c- u>"prov:Entity"</c-><c- p>],</c->
+    <c- f>"name"</c-><c- p>:</c-> <c- u>"Publication about WOII"</c->
+  <c- p>},</c->
+  <c- f>"contains"</c-><c- p>:</c-> <c- p>[</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#1"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was registered."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c-><c- p>,</c->
+      <c- f>"generated"</c-><c- p>:</c-> <c- u>"https://registar.org/registration/23813178"</c->
+    <c- p>},</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#2"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was certified."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-16T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-16T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://certifier.org"</c->
+    <c- p>},</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#3"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was archived."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-17T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-17T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://archive.org"</c->
+    <c- p>}</c->
+  <c- p>]</c->
+<c- p>}</c-></pre>
+   <dl>
+    <dt data-md>Sous-classe de :
+    <dd data-md>
+    <dt data-md>Propriétés :
+    <dd data-md>
+     <p><a href>daen:isEventLogOf</a>, <a href>ldp:contains</a>, <a href>daen:maintainer</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.1.4" id="type-maintainer"><span class="secno">6.1.4. </span><span class="content">Type : <a href="http://www.w3.org/ns/solid/daen#Maintainer">daen:Maintainer</a></span><a class="self-link" href="#type-maintainer"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#Maintainer</code>Un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#actor">Acteur</a>, un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">Gestionnaire</a> et un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#human-agent">Agent Humain</a> qui participe au réseau et génère des activités liées au cycle de vie d’un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
+   <p><strong>Exemple:</strong></p>
+<pre class="include-code highlight"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://www.kb.nl#me"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Maintainer"</c-><c- p>,</c-> <c- u>"as:Organization"</c-><c- p>],</c->
+  <c- f>"as:name"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@value"</c-><c- p>:</c-> <c- u>"National Library"</c-><c- p>,</c->
+    <c- f>"@language"</c-><c- p>:</c-> <c- u>"en"</c->
+  <c- p>}</c->
+<c- p>}</c-></pre>
+   <dl>
+    <dt data-md>Sous-classe de:
+    <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Person">as:Person</a>, <a href="https://www.w3.org/ns/activitystreams#Organization">as:Organization</a></p>
+    <dt data-md>Propriétés:
+    <dd data-md>
+   </dl>
+   <h4 class="heading settled" data-level="6.1.5" id="type-service-hub"><span class="secno">6.1.5. </span><span class="content">Type: <a href="http://www.w3.org/ns/solid/daen#ServiceHub">daen:ServiceHub</a></span><a class="self-link" href="#type-service-hub"></a></h4>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#ServiceHub</code></p>
+   <p>Un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#actor">Acteur</a> et un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#service-hub">Hub de Services</a> qui fournit des services liés au cycle de vie d’un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
+   <p><strong>Exemple:</strong></p>
+<pre class="include-code highlight"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"http://registar.org"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"ServiceHub"</c-><c- p>,</c->
+  <c- f>"as:name"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@value"</c-><c- p>:</c-> <c- u>"Registry service"</c-><c- p>,</c->
+    <c- f>"@language"</c-><c- p>:</c-> <c- u>"en"</c->
+  <c- p>}</c->
+<c- p>}</c->
+</pre>
+   <dl>
+    <dt data-md>Sous-classe de:
+    <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Service">as:Service</a>, <a href="http://www.w3.org/ns/dcat#DataService">dcat:DataService</a></p>
+    <dt data-md>Propriétés:
+    <dd data-md>
+   </dl>
+   <h3 class="heading settled" data-level="6.2" id="proprits"><span class="secno">6.2. </span><span class="content">Propriétés</span><a class="self-link" href="#proprits"></a></h3>
+   <p>Le tableau suivant répertorie les propriétés du <a data-link-type="dfn">Vocabulaire des Événements du Cycle de Vie d’un Artefact</a>.
+Ces propriétés décrivent la relation entre les différentes ressources et acteurs impliqués dans le cycle de vie d’un artefact.</p>
+   <figure>
+     <img src="images/model.svg" width="100%"> 
+    <figcaption> Un diagramme du Vocabulaire des Événements du Cycle de Vie d’un Artefact </figcaption>
+   </figure>
+   : URI de base : 
+   <dl>
+    <dd data-md>
+     <p><code>http://www.w3.org/ns/solid/daen#</code></p>
+    <dt data-md>Préfixe préféré :
+    <dd data-md>
+     <p><code>daen</code></p>
+    <dt data-md>Propriétés :
+    <dd data-md>
+     <p><a href="#property-eventlog">daen:eventLog</a> | <a href="#property-iseventlogof">daen:isEventLogOf</a> | <a href="#property-artefact">daen:artefact</a> | <a href="#property-maintainer">daen:maintainer</a> | <a href="#property-executor">daen:executor</a></p>
+    <dt data-md>Propriétés externes :
+    <dd data-md>
+     <p><a href="#property-contains">ldp:contains</a> | <a href="#property-generated">prov:generated</a> | <a href="#property-startedattime">prov:startedAtTime</a> | <a href="#property-endedattime">prov:endedAtTime</a> | <a href="#property-title">dct:title</a> | <a href="#property-signature">sec:signature</a> | <a href="#property-creator">sec:creator</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.1" id="property-eventlog"><span class="secno">6.2.1. </span><span class="content">Propriété : <a href>daen:eventLog</a></span><a class="self-link" href="#property-eventlog"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#eventLog</code></p>
+   <p>Le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Journal d’événements du cycle de vie de l’artefact</a> qui représente le cycle de vie d’un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+    <dt data-md>Dans le domaine :
+    <dd data-md>
+     <p><a href>daen:Artefact</a></p>
+    <dt data-md>Dans la plage :
+    <dd data-md>
+     <p><a href>daen:ArtefactLifecycleEventLog</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.2" id="property-iseventlogof"><span class="secno">6.2.2. </span><span class="content">Propriété : <a href>daen:isEventLogOf</a></span><a class="self-link" href="#property-iseventlogof"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#isEventLogOf</code></p>
+   <p>L' <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> dont le cycle de vie est représenté par le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Journal d’événements du cycle de vie de l’artefact</a> de celui-ci.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+    <dt data-md>Dans le domaine :
+    <dd data-md>
+     <p><a href>daen:ArtefactLifecycleEventLog</a></p>
+    <dt data-md>Dans la plage :
+    <dd data-md>
+     <p><a href>daen:Artefact</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.3" id="property-artefact"><span class="secno">6.2.3. </span><span class="content">Propriété : <a href>daen:artefact</a></span><a class="self-link" href="#property-artefact"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#artefact</code></p>
+   <p>L’artefact dont le cycle de vie est lié à la <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#used">prov:used</a></p>
+    <dt data-md>Dans le domaine :
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>Dans la plage :
+    <dd data-md>
+     <p><a href>daen:Artefact</a>### Propriété: <a href>daen:maintainer</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.4" id="property-maintainer"><span class="secno">6.2.4. </span><span class="content">Propriété : <a href>daen:maintainer</a></span><a class="self-link" href="#property-maintainer"></a></h4>
+   <p>Problème : supprimer cette propriété car elle n’est pas nécessaire (voir les signatures) ?</p>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#maintainer</code></p>
+   <p>Le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">responsable</a> qui maintient la ressource <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Journal d’événements du cycle de vie de l’artefact</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+    <dt data-md>Domaine :
+    <dd data-md>
+     <p><a href>daen:ArtefactLifecycleEventLog</a></p>
+    <dt data-md>Plage :
+    <dd data-md>
+     <p><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.5" id="property-executor"><span class="secno">6.2.5. </span><span class="content">Propriété: <a href>daen:executor</a></span><a class="self-link" href="#property-executor"></a></h4>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/solid/daen#executor</code></p>
+   <p>Le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">responsable</a> ou le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#service-hub">hub de service</a> qui a exécuté l’événement.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#wasAssociatedWith">prov:wasAssociatedWith</a></p>
+    <dt data-md>Domaine :
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>Plage :
+    <dd data-md>
+     <p><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a></p>
+   </dl>
+   <h4 class="heading settled" data-level="6.2.6" id="proprits-externes"><span class="secno">6.2.6. </span><span class="content">Propriétés externes</span><a class="self-link" href="#proprits-externes"></a></h4>
+   <h5 class="heading settled" data-level="6.2.6.1" id="property-contains"><span class="secno">6.2.6.1. </span><span class="content">Propriété: <a href="http://www.w3.org/ns/ldp#contains">ldp:contains</a></span><a class="self-link" href="#property-contains"></a></h5>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/ldp#contains</code></p>
+   <p>Le <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">événement du cycle de vie</a> contenu dans ce <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Journal d’événements du cycle de vie de l’artefact</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+    <dt data-md>Domaine :
+    <dd data-md>
+     <p><a href>daen:ArtefactLifecycleEventLog</a></p>
+    <dt data-md>Plage :
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.2" id="property-generated"><span class="secno">6.2.6.2. </span><span class="content">Propriété: <a href="http://www.w3.org/ns/prov#generated">prov:generated</a></span><a class="self-link" href="#property-generated"></a></h5>
+   <p><strong>URI :</strong> <code>http://www.w3.org/ns/prov#generated</code></p>
+   <p>Un <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">artefact</a> secondaire qui a résulté de cet <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">événement du cycle de vie</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de :
+    <dd data-md>
+    <dt data-md>Domaine :
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>Plage :
+    <dd data-md>
+     <p><a href>daen:Artefact</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.3" id="property-startedattime"><span class="secno">6.2.6.3. </span><span class="content">Propriété: <a href="http://www.w3.org/ns/prov#startedAtTime">prov:startedAtTime</a></span><a class="self-link" href="#property-startedattime"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/prov#startedAtTime</code></p>
+   <p>Le moment où l'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a> a commencé.</p>
+   <dl>
+    <dt data-md>Sous-propriété de:
+    <dd data-md>
+    <dt data-md>Dans le domaine:
+    <dd data-md>
+     <p><a href>daen:ÉvénementduCycledeVie</a></p>
+    <dt data-md>Dans la plage:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.4" id="property-endedattime"><span class="secno">6.2.6.4. </span><span class="content">Propriété: <a href="http://www.w3.org/ns/prov#endedAtTime">prov:endedAtTime</a></span><a class="self-link" href="#property-endedattime"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/prov#endedAtTime</code></p>
+   <p>Le moment où l'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a> s’est terminé.</p>
+   <dl>
+    <dt data-md>Sous-propriété de:
+    <dd data-md>
+    <dt data-md>Dans le domaine:
+    <dd data-md>
+     <p><a href>daen:ÉvénementduCycledeVie</a></p>
+    <dt data-md>Dans la plage:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.5" id="property-title"><span class="secno">6.2.6.5. </span><span class="content">Propriété: <a href="http://purl.org/dc/terms/title">dct:title</a></span><a class="self-link" href="#property-title"></a></h5>
+   <p><strong>URI:</strong> <code>http://purl.org/dc/terms/title</code></p>
+   <p>Le titre de l'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de:
+    <dd data-md>
+    <dt data-md>Dans le domaine:
+    <dd data-md>
+     <p><a href>daen:ÉvénementduCycledeVie</a></p>
+    <dt data-md>Dans la plage:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.6" id="property-signature"><span class="secno">6.2.6.6. </span><span class="content">Propriété: <a href="https://w3id.org/security#signature">sec:signature</a></span><a class="self-link" href="#property-signature"></a></h5>
+   <p><strong>URI:</strong> <code>https://w3id.org/security#signature</code></p>
+   <p>Le titre de l'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de:
+    <dd data-md>
+    <dt data-md>Dans le domaine:
+    <dd data-md>
+     <p><a href>daen:ÉvénementduCycledeVie</a></p>
+    <dt data-md>Dans la plage:
+    <dd data-md>
+     <p><a href="https://w3id.org/security#Signature">sec:Signature</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.7" id="property-creator"><span class="secno">6.2.6.7. </span><span class="content">Propriété: <a href="https://w3id.org/security#creator">sec:creator</a></span><a class="self-link" href="#property-creator"></a></h5>
+   <p><strong>URI:</strong> <code>https://w3id.org/security#creator</code></p>
+   <p>Le titre de l'<a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Événement du cycle de vie</a>.</p>
+   <dl>
+    <dt data-md>Sous-propriété de:
+    <dd data-md>
+    <dt data-md>Dans le domaine:
+    <dd data-md>
+     <p><a href>sec:Signature</a></p>
+    <dt data-md>Dans la plage:
+    <dd data-md>
+     <p><a href>daen:Responsable</a> | <a href>daen:HubdeService</a></p>
+   </dl>
+   <h3 class="heading settled" data-level="6.3" id="signature-des-vnements-du-cycle-de-vie"><span class="secno">6.3. </span><span class="content">Signature des événements du cycle de vie</span><a class="self-link" href="#signature-des-vnements-du-cycle-de-vie"></a></h3>
+   <p>Les événements du cycle de vie qui appartiennent à un seul <a data-link-type="dfn">Artefact</a> peuvent être produits par différents <a data-link-type="dfn">acteurs</a> dans le réseau. Bien qu’il soit possible de déduire l'<a data-link-type="dfn">acteur</a> qui a exécuté l’événement via la propriété [[#property-executor|<code>daen:executor</code>]], il est également essentiel de déduire qui atteste de son existence. Cela se fait en signant le <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events">Lifecycle Event</a> sérialisé et en ajoutant le qui, quoi et quand de la signature numérique. Souvent, l'<a data-link-type="dfn">acteur</a> qui exécute l’événement est le même que celui qui le signe, bien que cela ne soit pas toujours le cas.</p>
+   <p>Un événement de type [[#type-lifecycle-event|<code>daen:LifecycleEvent</code>]] DOIT contenir une propriété [[#property-signature|<code>sec:signature</code>]]. La signature DOIT être typée comme l’une des classes de <a href="https://w3c-ccg.github.io/security-vocab/#classes">Le vocabulaire de sécurité § classes</a> et DOIT être une signature <a href="https://w3c-ccg.github.io/ld-proofs#linked-data-signatures">Linked Data Signature</a> valide. Elle DOIT contenir la propriété <code>sec:creator</code> avec l’URI de l'<a data-link-type="dfn">acteur</a> signataire comme valeur.</p>
+   <h2 class="heading settled" data-level="7" id="discovery"><span class="secno">7. </span><span class="content">Découverte d’un journal des événements du cycle de vie d’un Artefact</span><a class="self-link" href="#discovery"></a></h2>
+   <p>Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> peut être découvert avec plusieurs méthodes :</p>
+   <ol>
+    <li data-md>
+     <p>Les <a data-link-type="dfn">acteurs</a> émettent une demande vers n’importe quelle ressource pour récupérer l’URL du journal des événements du cycle de vie de l'<a data-link-type="dfn">Artefact</a> à partir d’un lien (<a href="#discovery-link">§ 7.1 Découverte via lien</a>).</p>
+    <li data-md>
+     <p>Les <a data-link-type="dfn">acteurs</a> utilisent la description des <a data-link-type="biblio" href="#biblio-shapetrees" title="Spécification des arbres de forme">[shapetrees]</a> pour localiser l’URL du journal des événements du cycle de vie de l'<a data-link-type="dfn">Artefact</a> (<a href="#discovery-shapetrees">§ 7.2 Découverte via les Shape Trees</a>).</p>
+   </ol>
+   <p>Problème : comment localiser les ressources pouvant conduire à un tel lien ? Qui les héberge ?</p>
+   <p>Toute ressource <a data-link-type="dfn">Artefact</a> DOIT prendre en charge la première méthode de découverte. ELLES PEUVENT prendre en charge la méthode supplémentaire basée sur les <a data-link-type="biblio" href="#biblio-shapetrees" title="Spécification des arbres de forme">[shapetrees]</a>. Les <a data-link-type="dfn">acteurs</a> PEUVENT choisir l’ordre dans lequel ils essaient ces méthodes de découverte.</p>
+   <h3 class="heading settled" data-level="7.1" id="discovery-link"><span class="secno">7.1. </span><span class="content">Découverte via lien</span><a class="self-link" href="#discovery-link"></a></h3>
+   <p>Un <a data-link-type="dfn">acteur</a> DOIT essayer au moins l’une des actions suivantes :- effectuer une requête HTTP HEAD ou GET sur l’URL cible, et utiliser l’en-tête <code>Link</code> avec une valeur <code>rel</code> de <code>http://www.w3.org/ns/solid/daen#eventLog</code>.</p>
+   <ul>
+    <li data-md>
+     <p>effectuer une requête HTTP GET sur l’URL cible pour récupérer une représentation <a data-link-type="biblio" href="#biblio-rdf11-primer" title="RDF 1.1 Primer">RDF 1.1</a>, dont le graphe RDF encodé contient une relation de type <code>http://www.w3.org/ns/solid/daen#eventLog</code>. Le sujet de cette relation est la cible et l’objet est l' <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+    <li data-md>
+     <p>effectuer une requête HTTP GET sur l’URL cible pour récupérer une représentation <a data-link-type="biblio" href="#biblio-html" title="HTML Standard">[html]</a>, dont le corps HTML contient un élément de lien avec une valeur <code>rel</code> de <code>http://www.w3.org/ns/solid/daen#eventLog</code>. La valeur de l’attribut <code>href</code> est l'<a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+   </ul>
+   <p>Un <a data-link-type="dfn">acteur</a> peut être effectué dans n’importe quel ordre, mais si l’un ne parvient pas à donner un <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, les alternatives DOIVENT être essayées.
+Une ressource PEUT annoncer de multiples ressources <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, par exemple un <a data-link-type="dfn">artefact</a> facilitant la découverte de son cycle de vie distribué sur le réseau.
+Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT être utilisé par de multiples ressources, par exemple en utilisant un seul <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour collecter les <a data-link-type="dfn">Événements du cycle de vie</a> de tous les <a data-link-type="dfn">Artefacts</a> dans un pod de données.</p>
+   <div class="example" id="example-80380f4d">
+    <a class="self-link" href="#example-80380f4d"></a> En cas d’une ressource RDF située à <code>resourceURI</code>, toute implémentation liant un Journal d’événements situé à <code>eventLogURI</code> via un lien dans le corps DOIT ajouter le triple de données suivant au corps du document : 
+<pre class="include-code highlight"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
+
+<c- g>&lt;https://example.org/artefacts/1></c-> <c- nn>daen</c-><c- p>:</c-><c- f>eventLog</c-> <c- g>&lt;https://example.org/eventlog></c-><c- p>.</c-></pre>
+   </div>
+   <div class="example" id="example-fa9201fe">
+    <a class="self-link" href="#example-fa9201fe"></a> En cas d’une ressource HTML située à <code>resourceURI</code>, toute implémentation liant un Journal d’événements situé à <code>eventLogURI</code> via un lien dans le corps HTML DOIT utiliser un élément de lien dans le corps HTML comme suit : 
+<pre class="include-code highlight"><c- cp>&lt;!doctype html></c->
+
+<c- p>&lt;</c-><c- f>html</c-> <c- e>lang</c-><c- o>=</c-><c- s>"en"</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>head</c-><c- p>></c->
+  <c- p>&lt;</c-><c- f>meta</c-> <c- e>charset</c-><c- o>=</c-><c- s>"utf-8"</c-><c- p>></c->
+
+  <c- p>&lt;</c-><c- f>title</c-><c- p>></c->A Basic HTML5 Template<c- p>&lt;/</c-><c- f>title</c-><c- p>></c->
+
+  <c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>'http://www.w3.org/ns/solid/daen#eventLog'</c-> <c- e>href</c-><c- o>=</c-><c- s>'https://example.org/eventlog'</c-> <c- p>/></c->
+<c- p>&lt;/</c-><c- f>head</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>body</c-><c- p>></c->
+    ...
+<c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
+<c- p>&lt;/</c-><c- f>html</c-><c- p>></c-></pre>
+   </div>
+   <div class="example" id="example-08dcb4e2">
+    <a class="self-link" href="#example-08dcb4e2"></a> Toute ressource avec un journal d’événements lié qui n’annonce pas ce journal d’événements par le biais d’un lien dans le corps du message DOIT annoncer ce journal d’événements par le biais d’un en-tête de lien dans la réponse du serveur comme suit: 
+<pre class="language-http highlight">Link: &lt;https://example.org/eventlog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
+</pre>
+    Problème : obtenir plus de détails sur la méthode ci-dessous 
+    <p>Certains formats de données peuvent utiliser une ressource externe pour agréger des métadonnées et/ou servir de point d’entrée pour de multiples ressources.
+L’implémenteur PEUT choisir d’agréger les entités <a data-link-type="dfn">Artefact Lifecycle Event Log</a> annoncées par les ressources agrégées dans la ressource d’agrégation, 
+et les annoncer à partir de cette ressource.
+Alternativement, l’implémenteur peut choisir d’annoncer une seule instance de <a data-link-type="dfn">Artefact Lifecycle Event Log</a> à partir de la ressource d’agrégation pour toutes les ressources agrégées.</p>
+    <p>Toute implémentation PEUT prendre en charge la découverte d’un journal d’événements via une ressource externe.
+Dans ce cas, l’acteur DOIT faire une requête HTTP HEAD ou GET sur l’URL cible.
+L’acteur doit rechercher dans les en-têtes de réponse un en-tête Link avec une valeur <code>rel</code> de <code>meta</code> et dans le corps de la réponse un élément de lien avec une valeur <code>rel</code> de <code>meta</code> dans le cas d’une représentation <a data-link-type="biblio" href="#biblio-html" title="HTML Standard">[html]</a>,
+ou pour un triple de données avec une valeur prédicat de <code>rdf:seeAlso</code> en cas de codage [[RDF 1.1]].</p>
+    <div class="example" id="example-2d26ec43">
+     <a class="self-link" href="#example-2d26ec43"></a> La ressource d’agrégation située à <code>aggregationResourceURI</code> DOIT être liée pour toutes les ressources agrégées via UN LIEN dans le corps de la forme : 
+<pre class="language-html highlight"><c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>'meta'</c-> <c- e>href</c-><c- o>=</c-><c- s>'{aggregationResourceURI}'</c-> <c- p>/></c->
+</pre>
+     dans le cas d’une ressource HTML et 
+<pre class="language-turtle highlight"><c- g>&lt;resourceURI></c-> <c- nn>rdf</c-><c- p>:</c-><c- f>seeAlso</c-> <c- g>&lt;aggregationResourceURI></c-> <c- p>.</c->
+</pre>
+     dans le cas d’un encodage RDF OU en utilisant un en-tête <code>Link</code> de la forme : 
+<pre class="language-http highlight">Link: &lt;aggregationResourceURI>; rel=meta
+</pre>
+    </div>
+    <h3 class="heading settled" data-level="7.2" id="discovery-shapetrees"><span class="secno">7.2. </span><span class="content">Découverte via les Shape Trees</span><a class="self-link" href="#discovery-shapetrees"></a></h3>
+    <p>Toute implémentation PEUT supporter la découverte d’un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> à travers les <a data-link-type="biblio" href="#biblio-shapetrees" title="Spécification des arbres de forme">[shapetrees]</a> définies dans la plateforme de données.</p>
+    <p>Dans l’écosystème <a data-link-type="biblio" href="#biblio-solid-protocol" title="Le protocole Solid">Solid</a>, Toutes les ressources <a data-link-type="dfn">Artefact Lifecycle Event Log</a> créées DOIVENT être découvrables dans le pod de données à travers l'<a href="https://shapetrees.org/TR/specification/#tree">Shape Trees</a> du pod.
+Cela permet aux acteurs du réseau d’agrégér efficacement toutes les données des <a data-link-type="dfn">Événements du cycle de vie</a> dans le pod de données pour lequel ils ont des autorisations de lecture.</p>
+    <div class="example" id="example-8643058a">
+     <a class="self-link" href="#example-8643058a"></a> 
+<pre>// Le dossier Événements contient des conteneurs de Journal d’événements
+&lt;#Events> st:expectsType st:ShapeTreeContainer ;
+	st:contains &lt;#EventStream> ; 
+
+// Un Journal d’événements est un conteneur dans l’écosystème Solid contenant des ressources d’événements.
+&lt;#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains &lt;#Event> ;
+	
+// Une ressource d’événement est validée par une forme d’événement de base
+&lt;#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy &lt;EventShape> ;
+
+&lt;EventShape> { ... }
+</pre>
+    </div>
+    <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Ajout d’événements du cycle de vie</span><a class="self-link" href="#producing"></a></h2>
+    <p>Un acteur peut ajouter <a data-link-type="dfn">Événements du cycle de vie</a> en envoyant une demande <code>POST</code> au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+    <p>Dans le cas où l'<a href="#authorization">autorisation</a> est activée pour le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, l’acteur DOIT disposer des <a href="#authorization-append">autorisations d’ajout</a> pour exécuter cette action.</p>
+    <p>Avant d’ajouter un événement au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, le client DEVRAIT essayer de découvrir si la <a href="#validation">validation</a> est activée pour le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. Si la validation est activée, le client DEVRAIT essayer de valider d’abord l’événement sur le client avec le lien de validation découvert.</p>
+    <p>Tout événement qui est posté avec succès et validé DOIT être ajouté au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
+Les autorisations pour l’événement DEVRAIENT par défaut être héritées des autorisations du <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+    <p>Suite à une demande POST réussie, l’événement DOIT être ajouté sur une URI <em>eventURI</em> et DOIT être défini dans le corps de son <a data-link-type="dfn">Artefact Lifecycle Event Log</a> avec l’URI <em>eventLogURI</em> en utilisant un triplet RDF de la forme:</p>
+<pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
+</pre>
+    <h3 class="heading settled" data-level="8.1" id="producing-pagination"><span class="secno">8.1. </span><span class="content">Pagination</span><a class="self-link" href="#producing-pagination"></a></h3>
+    <p>Un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT utiliser la pagination.
+Tout système de pagination utilisé DOIT garantir que TOUS les événements dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> peuvent être récupérés en suivant les liens <em>next</em> disponibles.
+Ces liens DOIVENT être fournis soit en tant qu’en-tête Link de la forme:</p>
+<pre>Link: &lt;nextPageLocation>; rel="next"
+</pre>
+    soit dans le corps du <a data-link-type="dfn">Artefact Lifecycle Event Log</a> / d’une page récupérée du <a data-link-type="dfn">Artefact Lifecycle Event Log</a> en tant que triplet de données: 
+<pre>&lt;eventLogURI> hydra:next &lt;nextPageLocation> 
+</pre>
+    <p>Toute mise en œuvre PEUT offrir un support de pagination supplémentaire ou des possibilités de filtrage, et DOIT annoncer cela en utilisant les mécanismes appropriés détaillés dans leurs spécifications.</p>
+    <h2 class="heading settled" data-level="9" id="consuming"><span class="secno">9. </span><span class="content">Consommer un journal des événements du cycle de vie de l’artefact</span><a class="self-link" href="#consuming"></a></h2>
+    <p>Un acteur peut consommer un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> en envoyant une requête GET.</p>
+    <p>Lorsque la requête GET réussit sur l’URI du journal des événements <code>eventLogURI</code>, l’acteur peut découvrir les URI des événements disponibles en traitant le corps du <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour toutes les triplets de données de la forme :</p>
+<pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
+</pre>
+    La mise en œuvre du consommateur PEUT inclure des approches alternatives pour récupérer des événements à partir d’un <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, mais DOIT prendre en charge cette méthode de récupération. 
+    <h3 class="heading settled" data-level="9.1" id="consuming-pagination"><span class="secno">9.1. </span><span class="content">Pagination</span><a class="self-link" href="#consuming-pagination"></a></h3>
+    <p>Toute mise en œuvre du consommateur DOIT prendre en charge la pagination en suivant les liens <em>suivants</em> annoncés.
+Lors d’une requête GET à un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> / page <a data-link-type="dfn">Artefact Lifecycle Event Log</a> sur l’URI <code>eventLogPageURI</code> avec un en-tête Accept de type <code>text/turtle</code>, le consommateur DOIT traiter la réponse du serveur pour obtenir un en-tête Link avec une valeur rel <code>"next"</code>. 
+Le corps de la réponse DOIT être traité pour découvrir tous les triplets de données de la forme :</p>
+<pre>&lt;eventLogPageURI> hydra:next &lt;nextPageLocation> .
+</pre>
+    Toute implémentation PEUT prendre en charge des approches de pagination ou de filtrage annoncées supplémentaires, mais DOIT prendre en charge cette approche pour consommer un <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. 
+    <h2 class="heading settled" data-level="10" id="authorization"><span class="secno">10. </span><span class="content">Autorisation</span><a class="self-link" href="#authorization"></a></h2>
+    <p>Toute plateforme mettant en œuvre le mécanisme <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT prendre en charge l’autorisation pour les aspects suivants du mécanisme <a data-link-type="dfn">Artefact Lifecycle Event Log</a> :</p>
+    <ul>
+     <li data-md>
+      <p>Accès en lecture pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a></p>
+     <li data-md>
+      <p>Accès en ajout pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a></p>
+     <li data-md>
+      <p>Autorisations de mise à jour pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a></p>
+     <li data-md>
+      <p>Accès en lecture pour un événement spécifique dans un <a data-link-type="dfn">Artefact Lifecycle Event Log</a></p>
+     <li data-md>
+      <p>Autorisations de mise à jour pour un événement spécifique dans un <a data-link-type="dfn">Artefact Lifecycle Event Log</a></p>
+    </ul>
+    <p>Toute implémentation de l’autorisation pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT utiliser le <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control (WAC)</a>.
+La découverte du document ACL pour une ressource DOIT être effectuée conformément à la <a href="https://www.w3.org/wiki/WebAccessControl">spécification ACL</a>.
+La définition des autorisations pour une ressource s’effectue en créant / mettant à jour le <a href="https://www.w3.org/wiki/WebAccessControl">fichier ACL</a> pour cette ressource.</p>
+    <p>REMARQUE : En fonction de l’évolution du projet Solid, cette dépendance à WAC peut être mise à jour pour inclure de nouvelles approches d’autorisation, dans la mesure où l’objectif est de maintenir la compatibilité avec le projet Solid.</p>
+    <h3 class="heading settled" data-level="10.1" id="authorization-read"><span class="secno">10.1. </span><span class="content">Autorisation de lecture</span><a class="self-link" href="#authorization-read"></a></h3>
+     Tout acteur disposant de permissions de lecture définies pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être en mesure de découvrir tous les événements dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour lesquels l’acteur a des permissions de lecture.
+Tout acteur disposant de permissions de lecture définies pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DEVRAIT automatiquement avoir la permission de lecture pour tous les événements stockés, SAUF si cela est explicitement défini autrement par les événements individuels.
+La mise en œuvre PEUT restreindre l’acteur à découvrir les événements dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour lesquels l’acteur n’a pas de permissions de lecture.
+Tout acteur sans permissions de lecture pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> NE DEVRAIT PAS être en mesure de découvrir l’événement dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, même si l’acteur a des permissions de lecture pour les événements individuels dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. 
+    <h3 class="heading settled" data-level="10.2" id="authorization-append"><span class="secno">10.2. </span><span class="content">Ajout d’autorisation</span><a class="self-link" href="#authorization-append"></a></h3>
+    <p>Tout acteur disposant de permissions d’ajout définies pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être en mesure d’ajouter des événements au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+    <p>Remarque : La mise en œuvre PEUT décider d’utiliser SOIT acl:Write SOIT acl:Append comme permission pour ajouter des événements au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, mais la plateforme DOIT prendre en charge l’utilisation des opérations POST sur le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour la permission choisie.</p>
+    <h3 class="heading settled" data-level="10.3" id="authorization-permissions"><span class="secno">10.3. </span><span class="content">Mise à jour des autorisations d’autorisation</span><a class="self-link" href="#authorization-permissions"></a></h3>
+    <p>Tout acteur disposant de permissions de mise à jour définies pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être en mesure de modifier les permissions pour tous les acteurs pour le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
+Tout acteur disposant de permissions de mise à jour définies pour un <a data-link-type="dfn">Artefact Lifecycle Event Log</a> DOIT être en mesure de modifier les permissions pour tous les événements individuels dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> SAUF si cela est explicitement défini autrement par les événements individuels.## Autorisation de lecture spécifique à un événement ## {#authorization-specific-read}
+Tout acteur disposant des autorisations de lecture définies pour un événement DOIT être en mesure de lire cet événement, et de découvrir l’événement dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> dans le cas des autorisations de lecture pour le <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+    <h3 class="heading settled" data-level="10.4" id="authorization-specific-update"><span class="secno">10.4. </span><span class="content">Autorisation spécifique à la mise à jour d’un événement</span><a class="self-link" href="#authorization-specific-update"></a></h3>
+     Tout acteur disposant des autorisations de mise à jour définies pour un événement DOIT être en mesure de modifier les autorisations pour tous les acteurs pour cet événement. 
+    <h2 class="heading settled" data-level="11" id="validation"><span class="secno">11. </span><span class="content">Validation d’un journal des événements du cycle de vie de l’artefact</span><a class="self-link" href="#validation"></a></h2>
+    <p>Toute implémentation du mécanisme du <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT ajouter une prise en charge pour valider les événements qui sont ajoutés au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
+Dans le cas où un acteur tente d’ajouter un événement au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> qui ne peut pas être validé, l’événement NE DOIT PAS être ajouté au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> et un code d’erreur 4xx approprié doit être renvoyé.
+Les sections suivantes définissent les différentes possibilités pour fournir un fichier de forme, situé à <code>shapeFileLocation</code>, auquel un événement DOIT être validé avant de pouvoir être ajouté au <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
+Si un fichier de forme est annoncé en utilisant l’une des différentes méthodes décrites dans les sections suivantes, le serveur DOIT valider toutes les demandes entrantes pour ajouter un événement au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> et DOIT rejeter toutes les demandes pour lesquelles l’événement échoue à cette étape de validation.</p>
+    <h3 class="heading settled" data-level="11.1" id="validation-link-header"><span class="secno">11.1. </span><span class="content">En-tête de lien de validation</span><a class="self-link" href="#validation-link-header"></a></h3>
+    <p>Une requête au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT renvoyer l’en-tête de lien suivant :</p>
+<pre>Link: &lt;shapeFileLocation>; rel=http://www.w3.org/ns/ldp#constrainedBy
+</pre>
+    Dans ce cas, le serveur DOIT valider toutes les demandes entrantes pour ajouter un événement au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour le fichier de forme annoncé. 
+    <h3 class="heading settled" data-level="11.2" id="validation-in-body-link"><span class="secno">11.2. </span><span class="content">Validation du lien dans le corps</span><a class="self-link" href="#validation-in-body-link"></a></h3>
+    <p>Le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> PEUT fournir les liens suivants dans le corps de la ressource :</p>
+<pre>&lt;link rel='http://www.w3.org/ns/ldp#constrainedBy' href='{shapeFileLocation}'/>
+</pre>
+    dans le cas d’une ressource HTML, et 
+<pre>&lt;eventLogURI> &lt;http://www.w3.org/ns/ldp#constrainedBy> &lt;shapeFileLocation>.
+</pre>
+    <p>dans le cas d’une ressource RDF.
+Dans ce cas, le serveur DOIT valider toutes les demandes entrantes pour ajouter un événement au <a data-link-type="dfn">Artefact Lifecycle Event Log</a> pour le fichier de forme annoncé.
+http://www.w3.org/ns/ldp#constrainedBy</p>
+    <h3 class="heading settled" data-level="11.3" id="validation-shape-tree"><span class="secno">11.3. </span><span class="content">Validation de l’arborescence de forme</span><a class="self-link" href="#validation-shape-tree"></a></h3>
+    <p>Dans un environnement Solide, le fichier de forme pour lequel tous les événements dans le <a data-link-type="dfn">Artefact Lifecycle Event Log</a> doivent être validés PEUT être annoncé en utilisant un lien st:validatedBy dans le <a href="https://shapetrees.org/">Shape Tree</a>.
+Dans ce cas, l’implémentation DEVRAIT également annoncer ce fichier de forme en utilisant soit <a href="#validation-link-header">un en-tête de lien</a> soit <a href="#validation-in-body-link">un lien dans le corps de la réponse</a>.</p>
+    <div class="example" id="example-e1c915a6">
+     <a class="self-link" href="#example-e1c915a6"></a> 
+<pre>
+// Un Journal des événements du cycle de vie de l’artefact est un conteneur dans l’écosystème Solide contenant des ressources d’événement.
+&lt;#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains &lt;#Event> ;
+	
+// Toutes les ressources d’événement DOIVENT être validées pour le fichier de forme annoncé
+&lt;#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy &lt;shapeFileLocation> ;
+</pre>
+    </div>
+    <h2 class="heading settled" data-level="12" id="remerciements"><span class="secno">12. </span><span class="content">Remerciements</span><a class="self-link" href="#remerciements"></a></h2>
+    <p>Nous remercions Herbert Van de Sompel, <a href="https://dans.knaw.nl/nl/">DANS + Ghent University</a>, hvdsomp@gmail.com pour sa précieuse contribution à ce projet.</p>
+   </div>
+  </main>
+  <div data-fill-with="conformance">
+   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
+   <p> Conformance requirements are expressed with a combination of descriptive assertions and RFC 2119 terminology.
+            The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+            in the normative parts of this document
+            are to be interpreted as described in RFC 2119.
+            However, for readability,
+            these words do not appear in all uppercase letters in this specification. </p>
+   <p> All of the text of this specification is normative
+            except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+   <p> Examples in this specification are introduced with the words “for example”
+            or are set apart from the normative text with <code>class="example"</code>, like this: </p>
+   <div class="example" id="example-example"><a class="self-link" href="#example-example"></a> This is an example of an informative example. </div>
+   <p> Informative notes begin with the word “Note”
+            and are set apart from the normative text with <code>class="note"</code>, like this: </p>
+   <p class="note" role="note"> Note, this is an informative note.</p>
+  </div>
+<script>
+(function() {
+  "use strict";
+  var collapseSidebarText = '<span aria-hidden="true">←</span> '
+                          + '<span>Collapse Sidebar</span>';
+  var expandSidebarText   = '<span aria-hidden="true">→</span> '
+                          + '<span>Pop Out Sidebar</span>';
+  var tocJumpText         = '<span aria-hidden="true">↑</span> '
+                          + '<span>Jump to Table of Contents</span>';
+
+  var sidebarMedia = window.matchMedia('screen and (min-width: 78em)');
+  var autoToggle   = function(e){ toggleSidebar(e.matches) };
+  if(sidebarMedia.addListener) {
+    sidebarMedia.addListener(autoToggle);
+  }
+
+  function toggleSidebar(on) {
+    if (on == undefined) {
+      on = !document.body.classList.contains('toc-sidebar');
+    }
+
+    /* Don’t scroll to compensate for the ToC if we’re above it already. */
+    var headY = 0;
+    var head = document.querySelector('.head');
+    if (head) {
+      // terrible approx of "top of ToC"
+      headY += head.offsetTop + head.offsetHeight;
+    }
+    var skipScroll = window.scrollY < headY;
+
+    var toggle = document.getElementById('toc-toggle');
+    var tocNav = document.getElementById('toc');
+    if (on) {
+      var tocHeight = tocNav.offsetHeight;
+      document.body.classList.add('toc-sidebar');
+      document.body.classList.remove('toc-inline');
+      toggle.innerHTML = collapseSidebarText;
+      if (!skipScroll) {
+        window.scrollBy(0, 0 - tocHeight);
+      }
+      tocNav.focus();
+      sidebarMedia.addListener(autoToggle); // auto-collapse when out of room
+    }
+    else {
+      document.body.classList.add('toc-inline');
+      document.body.classList.remove('toc-sidebar');
+      toggle.innerHTML = expandSidebarText;
+      if (!skipScroll) {
+        window.scrollBy(0, tocNav.offsetHeight);
+      }
+      if (toggle.matches(':hover')) {
+        /* Unfocus button when not using keyboard navigation,
+           because I don’t know where else to send the focus. */
+        toggle.blur();
+      }
+    }
+  }
+
+  function createSidebarToggle() {
+    /* Create the sidebar toggle in JS; it shouldn’t exist when JS is off. */
+    var toggle = document.createElement('a');
+      /* This should probably be a button, but appearance isn’t standards-track.*/
+    toggle.id = 'toc-toggle';
+    toggle.class = 'toc-toggle';
+    toggle.href = '#toc';
+    toggle.innerHTML = collapseSidebarText;
+
+    sidebarMedia.addListener(autoToggle);
+    var toggler = function(e) {
+      e.preventDefault();
+      sidebarMedia.removeListener(autoToggle); // persist explicit off states
+      toggleSidebar();
+      return false;
+    }
+    toggle.addEventListener('click', toggler, false);
+
+
+    /* Get <nav id=toc-nav>, or make it if we don’t have one. */
+    var tocNav = document.getElementById('toc-nav');
+    if (!tocNav) {
+      tocNav = document.createElement('p');
+      tocNav.id = 'toc-nav';
+      /* Prepend for better keyboard navigation */
+      document.body.insertBefore(tocNav, document.body.firstChild);
+    }
+    /* While we’re at it, make sure we have a Jump to Toc link. */
+    var tocJump = document.getElementById('toc-jump');
+    if (!tocJump) {
+      tocJump = document.createElement('a');
+      tocJump.id = 'toc-jump';
+      tocJump.href = '#toc';
+      tocJump.innerHTML = tocJumpText;
+      tocNav.appendChild(tocJump);
+    }
+
+    tocNav.appendChild(toggle);
+  }
+
+  var toc = document.getElementById('toc');
+  if (toc) {
+    createSidebarToggle();
+    toggleSidebar(sidebarMedia.matches);
+
+    /* If the sidebar has been manually opened and is currently overlaying the text
+       (window too small for the MQ to add the margin to body),
+       then auto-close the sidebar once you click on something in there. */
+    toc.addEventListener('click', function(e) {
+      if(e.target.tagName.toLowerCase() == "a" && document.body.classList.contains('toc-sidebar') && !sidebarMedia.matches) {
+        toggleSidebar(false);
+      }
+    }, false);
+  }
+  else {
+    console.warn("Can’t find Table of Contents. Please use <nav id='toc'> around the ToC.");
+  }
+
+  /* Wrap tables in case they overflow */
+  var tables = document.querySelectorAll(':not(.overlarge) > table.data, :not(.overlarge) > table.index');
+  var numTables = tables.length;
+  for (var i = 0; i < numTables; i++) {
+    var table = tables[i];
+    var wrapper = document.createElement('div');
+    wrapper.className = 'overlarge';
+    table.parentNode.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+  }
+
+})();
+</script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#vocabulaire-des-vnements-du-cycle-de-vie-dartefact">Vocabulaire des événements du cycle de vie d’artefact</a><span>, in § 6</span>
+  </ul>
+  <aside aria-labelledby="infopaneltitle-for-cd27dc9883a8d1c729b93c0c2db4175b" class="dfn-panel" data-for="cd27dc9883a8d1c729b93c0c2db4175b" id="infopanel-for-cd27dc9883a8d1c729b93c0c2db4175b">
+   <span id="infopaneltitle-for-cd27dc9883a8d1c729b93c0c2db4175b" style="display:none">Info about the 'lifecycle events' external reference.</span><a href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events">https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-lifecycle-events">6.3. Signature des événements du cycle de vie</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[SERVICE-WORKERS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="cd27dc9883a8d1c729b93c0c2db4175b">lifecycle events</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <dl>
+   <dt id="biblio-linked-data-proof">[LINKED-DATA-PROOF]
+   <dd>Manu Sporny; Dave Longley. <a href="https://w3c-ccg.github.io/ld-proofs"><cite>Preuves de données liées 1.0</cite></a>. Rapport de groupe de travail de la communauté en cours de rédaction. URL: <a href="https://w3c-ccg.github.io/ld-proofs">https://w3c-ccg.github.io/ld-proofs</a>
+   <dt id="biblio-rfc2119">[RFC2119]
+   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+   <dt id="biblio-security-vocab">[SECURITY-VOCAB]
+   <dd>Manu Sporny; Orie Steele; Tobias Looker. <a href="https://w3c-ccg.github.io/security-vocab/"><cite>Le vocabulaire de sécurité</cite></a>. Rapport de groupe de travail de la communauté en cours de rédaction. URL: <a href="https://w3c-ccg.github.io/security-vocab/">https://w3c-ccg.github.io/security-vocab/</a>
+   <dt id="biblio-service-workers">[SERVICE-WORKERS]
+   <dd>Jake Archibald; Marijn Kruisselbrink. <a href="https://w3c.github.io/ServiceWorker/"><cite>Service Workers</cite></a>. URL: <a href="https://w3c.github.io/ServiceWorker/">https://w3c.github.io/ServiceWorker/</a>
+   <dt id="biblio-solid-protocol">[SOLID-PROTOCOL]
+   <dd>Sarven Capadisli; et al. <a href="https://solidproject.org/TR/protocol"><cite>Le protocole Solid</cite></a>. Brouillon de l'éditeur. URL: <a href="https://solidproject.org/TR/protocol">https://solidproject.org/TR/protocol</a>
+   <dt id="biblio-spec-overview">[SPEC-OVERVIEW]
+   <dd>Miel Vander Sande; et al. <a href="http://mellonscholarlycommunication.github.io/spec-overview/"><cite>Aperçu des spécifications de ResearcherPod</cite></a>. Brouillon de l'éditeur. URL: <a href="http://mellonscholarlycommunication.github.io/spec-overview/">http://mellonscholarlycommunication.github.io/spec-overview/</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-activitystreams-vocabulary">[ACTIVITYSTREAMS-VOCABULARY]
+   <dd>James Snell; Evan Prodromou. <a href="https://w3c.github.io/activitystreams/vocabulary/"><cite>Activity Vocabulary</cite></a>. URL: <a href="https://w3c.github.io/activitystreams/vocabulary/">https://w3c.github.io/activitystreams/vocabulary/</a>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-json-ld11">[JSON-LD11]
+   <dd>Gregg Kellogg; Pierre-Antoine Champin; Dave Longley. <a href="https://w3c.github.io/json-ld-syntax/"><cite>JSON-LD 1.1</cite></a>. URL: <a href="https://w3c.github.io/json-ld-syntax/">https://w3c.github.io/json-ld-syntax/</a>
+   <dt id="biblio-ldn">[LDN]
+   <dd>Sarven Capadisli; Amy Guy. <a href="https://linkedresearch.org/ldn/"><cite>Linked Data Notifications</cite></a>. URL: <a href="https://linkedresearch.org/ldn/">https://linkedresearch.org/ldn/</a>
+   <dt id="biblio-ldp">[LDP]
+   <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/2012/ldp/hg/ldp.html"><cite>Linked Data Platform 1.0</cite></a>. URL: <a href="https://www.w3.org/2012/ldp/hg/ldp.html">https://www.w3.org/2012/ldp/hg/ldp.html</a>
+   <dt id="biblio-prov-o">[PROV-O]
+   <dd>Timothy Lebo; Satya Sahoo; Deborah McGuinness. <a href="https://www.w3.org/TR/prov-o/"><cite>PROV-O: The PROV Ontology</cite></a>. 30 April 2013. REC. URL: <a href="https://www.w3.org/TR/prov-o/">https://www.w3.org/TR/prov-o/</a>
+   <dt id="biblio-rdf-primer">[RDF-PRIMER]
+   <dd>Frank Manola; Eric Miller. <a href="https://www.w3.org/TR/rdf-primer/"><cite>RDF Primer</cite></a>. 10 February 2004. REC. URL: <a href="https://www.w3.org/TR/rdf-primer/">https://www.w3.org/TR/rdf-primer/</a>
+   <dt id="biblio-rdf11-concepts">[RDF11-CONCEPTS]
+   <dd>Richard Cyganiak; David Wood; Markus Lanthaler. <a href="https://www.w3.org/TR/rdf11-concepts/"><cite>RDF 1.1 Concepts and Abstract Syntax</cite></a>. 25 February 2014. REC. URL: <a href="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
+   <dt id="biblio-rdf11-primer">[RDF11-PRIMER]
+   <dd>Guus Schreiber; Yves Raimond. <a href="https://www.w3.org/TR/rdf11-primer/"><cite>RDF 1.1 Primer</cite></a>. 24 June 2014. NOTE. URL: <a href="https://www.w3.org/TR/rdf11-primer/">https://www.w3.org/TR/rdf11-primer/</a>
+   <dt id="biblio-shapetrees">[SHAPETREES]
+   <dd>Eric Prud'hommeaux; Justin Bingham. <a href="https://shapetrees.org/TR/specification/"><cite>Spécification des arbres de forme</cite></a>. Brouillon de l'éditeur. URL: <a href="https://shapetrees.org/TR/specification/">https://shapetrees.org/TR/specification/</a>
+  </dl>
+  <aside aria-labelledby="infopaneltitle-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact" class="dfn-panel" data-for="vocabulaire-des-vnements-du-cycle-de-vie-dartefact" id="infopanel-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact">
+   <span id="infopaneltitle-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact" style="display:none">Info about the 'Vocabulaire des événements du cycle de vie d’artefact' definition.</span><b><a href="#vocabulaire-des-vnements-du-cycle-de-vie-dartefact">#vocabulaire-des-vnements-du-cycle-de-vie-dartefact</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact">6. Vocabulaire</a>
+    <li><a href="#ref-for-vocabulaire-des-vnements-du-cycle-de-vie-dartefact①">6.1. Types</a>
+   </ul>
+  </aside>
+<script>/* script-dfn-panel */
+"use strict";
+{
+    function queryAll(sel) {
+        return [].slice.call(document.querySelectorAll(sel));
+    }
+
+    // Add popup behavior to all dfns to show the corresponding dfn-panel.
+    var dfns = document.querySelectorAll('.dfn-paneled');
+    for (let dfn of dfns) { insertDfnPopupAction(dfn); }
+
+    document.body.addEventListener("click", (e) => {
+        // If not handled already, just hide all dfn panels.
+        hideAllDfnPanels();
+    });
+
+    function hideAllDfnPanels() {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
+    }
+
+    function showDfnPanel(dfnPanel, dfn) {
+        hideAllDfnPanels(); // Only display one at this time.
+        dfn.setAttribute("aria-expanded", "true");
+        dfnPanel.classList.add("on");
+        dfnPanel.style.left = "5px";
+        dfnPanel.style.top = "0px";
+        const panelRect = dfnPanel.getBoundingClientRect();
+        const panelWidth = panelRect.right - panelRect.left;
+        if (panelRect.right > document.body.scrollWidth) {
+            // Panel's overflowing the screen.
+            // Just drop it below the dfn and flip it rightward instead.
+            // This still wont' fix things if the screen is *really* wide,
+            // but fixing that's a lot harder without 'anchor()'.
+            dfnPanel.style.top = "1.5em";
+            dfnPanel.style.left = "auto";
+            dfnPanel.style.right = "0px";
+        }
+    }
+
+    function pinDfnPanel(dfnPanel) {
+        // Switch it to "activated" state, which pins it.
+        dfnPanel.classList.add("activated");
+        dfnPanel.style.left = null;
+        dfnPanel.style.top = null;
+    }
+
+    function hideDfnPanel(dfnPanel, dfn) {
+        if(!dfn) {
+            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+        }
+        dfn.setAttribute("aria-expanded", "false")
+        dfnPanel.classList.remove("on");
+        dfnPanel.classList.remove("activated");
+    }
+
+    function toggleDfnPanel(dfnPanel, dfn) {
+        if(dfnPanel.classList.contains("on")) {
+            hideDfnPanel(dfnPanel, dfn);
+        } else {
+            showDfnPanel(dfnPanel, dfn);
+        }
+    }
+
+    function insertDfnPopupAction(dfn) {
+        // Find dfn panel
+        const dfnPanel = document.querySelector(`.dfn-panel[data-for='${dfn.id}']`);
+        if (dfnPanel) {
+            const panelWrapper = document.createElement('span');
+            panelWrapper.appendChild(dfnPanel);
+            panelWrapper.style.position = "relative";
+            panelWrapper.style.height = "0px";
+            dfn.insertAdjacentElement("afterend", panelWrapper);
+            dfn.setAttribute('role', 'button');
+            dfn.setAttribute('aria-expanded', 'false')
+            dfn.tabIndex = 0;
+            dfn.classList.add('has-dfn-panel');
+            dfn.addEventListener('click', (event) => {
+                showDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+            });
+            dfn.addEventListener('keypress', (event) => {
+                const kc = event.keyCode;
+                // 32->Space, 13->Enter
+                if(kc == 32 || kc == 13) {
+                    toggleDfnPanel(dfnPanel, dfn);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            });
+
+            dfnPanel.addEventListener('click', (event) => {
+                pinDfnPanel(dfnPanel);
+                event.stopPropagation();
+            });
+
+            dfnPanel.addEventListener('keydown', (event) => {
+                if(event.keyCode == 27) { // Escape key
+                    hideDfnPanel(dfnPanel, dfn);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            })
+
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + dfn.id + "']");
+        }
+    }
+}
+</script>
