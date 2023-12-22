@@ -1,0 +1,876 @@
+<pre class='metadata'>
+Title: Artefact Lifecycle Event Log
+Shortname: eventlog
+Level: 1
+Status: LS
+URL: https://mellonscholarlycommunication.github.io/spec-eventlog
+Editor: Miel Vander Sande, [meemoo - Flemish Institute for Archives](https://meemoo.be), miel.vandersande@meemoo.be
+Editor: Patrick Hochstenbach, [IDLab - Ghent University](https://knows.idlab.ugent.be), patrick.hochstenbach@ugent.be
+Editor: Ruben Dedecker, [IDLab - Ghent University](https://knows.idlab.ugent.be), ruben.dedecker@ugent.be
+Editor: Jeroen Werbrouck, [IDLab - Ghent University](https://knows.idlab.ugent.be), Jeroen.Werbrouck@ugent.be
+Abstract: This document specifies the requirements for implementing and hosting an Artefact Lifecycle Event Log.
+Markup Shorthands: markdown yes
+</pre>
+
+<style>
+table {
+  margin: 25px auto;
+  border-collapse: collapse;
+  border: 1px solid #eee;
+  border-bottom: 2px solid #005A9C;
+}
+table tr:hover {
+  background: #f4f4f4;
+}
+table tr:hover td {
+  color: #555;
+}
+table th, table td {
+  color: #999;
+  border: 1px solid #eee;
+  padding: 12px 12px;
+  border-collapse: collapse;
+}
+table th {
+  background: #005A9C;
+  color: #fff;
+}
+table th.last {
+  border-right: none;
+}
+</style>
+
+Set of documents {#set}
+=======================
+
+This document is one of the specifications produced by the **ResearcherPod** and **ErfgoedPod** project:
+
+1. [Overview](/spec-overview/)
+2. [Orchestrator](/spec-orchestrator/) 
+3. [Data Pod](/spec-datapod/)
+4. [Rule language](/spec-rulelanguage/)
+5. [Artefact Lifecycle Event Log](/spec-eventlog/) (this document)
+6. [Notifications](/spec-notifications/)
+7. [Collector](/spec-collector/)
+
+Introduction {#intro}
+=====================
+In a decentralized network,
+an artefact can be shared between actors and processed by a multitude of services,
+each appending to the artefact's lifecycle.
+For each artefact, a series of lifecycle events is therefore distributed over the network.
+This document introduces the [=Artefact Lifecycle Event Log=], 
+a data format and protocol for the recording and discovery of these events,
+in order to serve mostly applications related to network governance.
+
+An [=Artefact Lifecycle Event Log=] is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
+These events are recorded using a data vocabulary encoded in [[rdf11-concepts|RDF]] to ensure network-wide interoperability.
+In practice, 
+the [=Artefact Lifecycle Event Log=] will often be an [[LDP]] Resource implementation that is natively supported of a [[solid-protocol#data-pod|Solid Data Pod]].
+It is important to note, however, that similar to [[LDN]], a [=Artefact Lifecycle Event Log=] is a specialized use of Linked Data Platform [[LDP]] and is not dependent on a complete implementation of LDP. 
+It only requires a minimal subset that is easy to implement.
+
+This document describes
+
+- a data vocabulary compatible with [[prov-o|PROV-O]] and [[activitystreams-vocabulary|Activity Streams 2.0]] for describing lifecycle event and log information;
+- the Web resource definition of a [=Artefact Lifecycle Event Log=];
+- methods for discovering [=Artefact Lifecycle Event Logs=]; 
+- the addition and retrieval process for [=Lifecycle Event=] information in the log.
+
+# Document Conventions # {#conventions}
+
+Within this document, the following namespace prefix bindings are used: 
+
+<table>
+<thead>
+<tr>
+	<th>Prefix
+	<th>Namespace
+<tbody>
+<tr>
+	<td>as
+	<td>https://www.w3.org/ns/activitystreams#
+<tr>
+	<td>daen
+	<td>http://www.w3.org/ns/solid/daen#
+<tr>
+	<td>ldp
+	<td>http://www.w3.org/ns/ldp#
+<tr>
+	<td>prov
+	<td>http://www.w3.org/ns/prov#
+<tr>
+	<td>dcat
+	<td>http://www.w3.org/ns/dcat#
+<tr>
+	<td>ldes
+	<td>https://w3id.org/ldes#
+<tr>
+	<td>st
+	<td>http://www.w3.org/ns/st#
+<tr>
+	<td>acl
+	<td>http://www.w3.org/ns/auth/acl#
+<tr>
+	<td>hydra
+	<td>http://www.w3.org/ns/hydra/core#
+</table>
+
+Applications of the Artefact Lifecycle Event Log
+================================================
+
+A [=Decentralized Artefact Exchange Network=] can support communities in the exchange of digital artefacts and services without the need of a central authority.
+Data about these exchanges is therefore distributed over every actor in the network.
+This intensifies an actor's control over its data and severely reduces data duplication, 
+but also makes it more difficult to get a clear picture about an artefact's history.
+There is no longer a single go-to trusted authority that records and certifies who applied what services to an artefact and when.
+In a [=Decentralized Artefact Exchange Network=], 
+this information needs to be collected from different actors with varying levels of trust.
+The [=Artefact Lifecycle Event Log=] provides basic groundwork for publishing artefact lifecycles and thus supporting this collection process. 
+
+In short,
+an [=Artefact Lifecycle Event Log=] registers lifecycle events that the [=Decentralized Artefact Exchange Network=] instance desires to be to be publicly disclosed.
+This is determined by the nature of the network, the use cases it supports, and how lifecycle information is employed.
+Typically, a network instance requires these events to be common knowledge to guarantee its well-functioning. 
+For instance, a food network might desire the publication of a completed health inspection process.
+It is therefore assumed that the dominant fraction of participating actors will experience sufficient incentive to host a [=Decentralized Artefact Exchange Network=] available to all actors in the network; and accurately record the selected lifecycle events.
+This pragmatic approach is needed because no decentralized design can force actors to comply,
+while maintaining truly scalable.
+
+This document offers a minimal semantic data model to construct and publish artefact lifecycle events, which serves as a basis for technical interoperability, 
+It is expected that a community that employs an instance of a [=Decentralized Artefact Exchange Network=], extends this model with domain-specific event types that provide more meaning and understanding within the network instance.
+A community can also leverage lifecycle information as they see fit, resulting in one or more applications of the [=Artefact Lifecycle Event Logs=].
+Some probable applications are given below: 
+
+## Establishing trust in the integrity of an artefact
+
+In some domains, 
+an artefact's value depends on its reconstructed lifecycle and whether this lifecycle can be trusted.
+For instance, 
+in scholarly communication, 
+a publication gains status after it has been certified by a certification service (eg. by a peer review process).
+Such lifecycle event should be registered in the [=Artefact Lifecycle Event Logs=] of both parties.
+When reconstructing the artefact's lifecycle to assess its integrity, 
+encountering such events in multiple places increases the trust.
+
+## Discovering entities on the network
+
+A process that collects decentralized information needs a way to navigate the network and discover new artefacts.
+Given the potential size of the network, 
+many data pods are still unknown when this process starts.
+Discovering unknown pods relies on existing links between actors and artefacts.
+Therefore, an [=Artefact Lifecycle Event Log=] can be used to find these links and serve as a routing mechanism.
+For instance, 
+in a digital heritage network,
+a portal wants to discover relevant data stored in pods controlled by cultural heritage institutions.
+No knowing the location of these pods beforehand, the portal might consult the eventlog of a registry service hub first, to finds links to all datasets that were registered there.
+
+Overview {#overview}
+=================================
+A [=Artefact Lifecycle Event Log=] is a Web resource that is accessible by all actors inside a single network.
+When requested, it returns an ordered list of notable lifecycle events descriptions, each containing the what, who and when of the event. 
+An actor can store new descriptions by updating this resource.
+The log maintains a chronological order; new events are appended to the end of the log.
+Hence, it MUST support producers appending events as described in [[#producing]].
+It MAY also validate [=Lifecycle Events=] before they are added in accordance to [[#validation]].
+
+An [=Artefact Lifecycle Event Log=] MUST be consumable for authorized actors in the network in accordance to [[#consuming]].
+Its URL MUST be discoverable through one of the methods described in [[#discovery]].
+Actors in the network MAY be authorized to read, append or change the permissions according to the authorization mechanism in [[#authorization]]. 
+Lifecycle events MUST be described in the artefact lifecycle data vocabulary as defined in [[#vocabulary]].
+An [=Artefact Lifecycle Event Log=] MUST be available in the [[json-ld11]] format, 
+but it MAY support other data formats as well through content negotiation.
+
+While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] per known artefact to allow effective network governance.
+As a result, a single [=Artefact Lifecycle Event Log=] MUST correspond to at least one [=artefact=] in the network, 
+while an [=artefact=] MAY correspond to multiple [=Artefact Lifecycle Event Logs=].
+
+<figure>
+	<img src="images/logs.png" width="100%" />
+	<figcaption>
+	Alice and Bob have data pods that contain two resources: an artefact and an Artefact Lifecycle Event Log. 
+	Service Hubs also host a Artefact Lifecycle Event Log resource. 
+	Since Service Hub B certifies artefacts, the lifecycle event that Alice's artefact A has been certified is in the logs of both Alice and Service Hub B.
+	Also, Bob made a comment on Alice's Artefact B, hence both actor's logs contain the lifecycle event that artefact A has been commented on by Bob.
+	</figcaption>
+</figure>
+
+Vocabulary {#vocabulary}
+=================================
+
+An [=Artefact Lifecycle Event Log=] is described using a minimal data vocabulary, 
+introducing a number of high level semantic types and properties.
+The <dfn>Artefact Lifecycle Event Vocabulary</dfn> can be used to construct an [[rdf-primer|RDF 1.1]] representation of the log and the lifecycle events it contains.
+The data vocabulary is fully compatible with [[prov-o|PROV-O]] and the object types from [[activitystreams-vocabulary|Activity Streams 2.0]].
+An overview is given in the figure below.
+
+<figure>
+	<img src="images/classes.svg" width="100%" />
+	<figcaption>
+	A diagram of the Artefact Lifecycle Event Vocabulary
+	</figcaption>
+</figure>
+
+The examples in the document use a predefined compliant [JSON-LD context](examples/context.jsonld) compliant with the [=Artefact Lifecycle Event Vocabulary=].
+
+Issue: add a high level explanation
+
+
+## Types
+
+The following table lists the [=Artefact Lifecycle Event Vocabulary=] types.
+These semantic types that distinguish the different resources and actors that are involved in an artefact's lifecycle. 
+
+: Base URI: 
+:: `http://www.w3.org/ns/solid/daen#`
+: Preferred prefix: 
+:: `daen`
+: Classes: 
+:: <a href="#type-artefact">daen:Artefact</a> | <a href="#type-lifecycle-event">daen:LifecycleEvent</a> | <a href="#type-lifecycle-event-log">daen:ArtefactLifecycleEventLog</a> | <a href="#type-maintainer">daen:Maintainer</a> | <a href="#type-service-hub">daen:ServiceHub</a>
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#Artefact">daen:Artefact</a> ### {#type-artefact}
+
+**URI:** http://www.w3.org/ns/solid/daen#Artefact
+
+A Web resource and [[spec-overview#artefact|Artefact]] that is the object of interaction between [=actors=] and retains a lifecycle within the network.
+
+**Example:**
+
+<pre class=include-code>
+path: examples/Artefact.jsonld
+highlight: json
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/ns/activitystreams#Object">as:Object</a>, <a href="https://www.w3.org/TR/prov-o/#Entity">prov:Entity</a>
+: Properties:
+:: <a href="">daen:eventLog</a> 
+
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#LifecycleEvent">daen:LifecycleEvent</a> ### {#type-lifecycle-event}
+
+**URI:** `http://www.w3.org/ns/solid/daen#LifecycleEvent`
+
+A [[spec-overview#artefact-lifecycle-event|Artefact Lifecycle Event]] that impacted the lifecycle of a certain [[spec-overview#artefact|Artefact]] and is of value to the well-functioning of the network. 
+They often result from an [=actor=] performing a service pertaining to that [[spec-overview#artefact|Artefact]]. 
+
+**Example:**
+
+<pre class=include-code>
+path: examples/LifecycleEvent.jsonld
+highlight: json
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Activity">prov:Activity</a>
+: Properties:
+:: <a href="">daen:executor</a>, <a href="">daen:artefact</a>
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog">daen:ArtefactLifecycleEventLog</a> ### {#type-lifecycle-event-log}
+
+**URI:** `http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog`
+
+A Web resource and [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] that exposes an ordered collection of [[spec-overview#artefact-lifecycle-event|Artefact Lifecycle Events]] resources that pertain to certain [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/ArtefactLifecycleEventLog.jsonld
+highlight: json
+show: 
+</pre>
+
+: Subclass of:
+:: 
+: Properties:
+:: <a href="">daen:isEventLogOf</a>, <a href="">ldp:contains</a>, <a href="">daen:maintainer</a>
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#Maintainer">daen:Maintainer</a>  ### {#type-maintainer}
+
+**URI:** `http://www.w3.org/ns/solid/daen#Maintainer`
+
+A [[spec-overview#actor|Actor]], [[spec-overview#maintainer|Maintainer]] and [[spec-overview#human-agent|Human Agent]] that participates on the network and generates activities pertaining to the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/Maintainer.jsonld
+highlight: json
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Person">as:Person</a>, <a href="https://www.w3.org/ns/activitystreams#Organization">as:Organization</a>
+: Properties:
+::
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#ServiceHub">daen:ServiceHub</a> ### {#type-service-hub}
+
+**URI:** `http://www.w3.org/ns/solid/daen#ServiceHub`
+
+A [[spec-overview#actor|Actor]] and [[spec-overview#service-hub|Service Hub]] that performs services pertaining to the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/ServiceHub.jsonld
+highlight: json
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Service">as:Service</a>, <a href="http://www.w3.org/ns/dcat#DataService">dcat:DataService</a>
+: Properties:
+::
+
+## Properties
+
+The following table lists the [=Artefact Lifecycle Event Vocabulary=] properties.
+These describe the relationship between the different resources and actors that are involved in an artefact's lifecycle.
+
+<figure>
+	<img src="images/model.svg" width="100%" />
+	<figcaption>
+	A diagram of the Artefact Lifecycle Event Vocabulary
+	</figcaption>
+</figure>
+
+: Base URI: 
+:: `http://www.w3.org/ns/solid/daen#`
+: Preferred prefix: 
+:: `daen`
+: Properties: 
+:: <a href="#property-eventlog">daen:eventLog</a> | <a href="#property-iseventlogof">daen:isEventLogOf</a> | <a href="#property-artefact">daen:artefact</a> | <a href="#property-maintainer">daen:maintainer</a> | <a href="#property-executor">daen:executor</a>
+: External properties: 
+:: <a href="#property-contains">ldp:contains</a>  | <a href="#property-generated">prov:generated</a> | <a href="#property-startedattime">prov:startedAtTime</a> | <a href="#property-endedattime">prov:endedAtTime</a> | <a href="#property-title">dct:title</a> | <a href="#property-signature">sec:signature</a> | <a href="#property-creator">sec:creator</a>
+
+### Property: <a href="">daen:eventLog</a> ### {#property-eventlog}
+
+**URI:** `http://www.w3.org/ns/solid/daen#eventLog`
+
+The [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] that represents the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:Artefact</a>
+: In range:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+
+### Property: <a href="">daen:isEventLogOf</a> ### {#property-iseventlogof}
+
+**URI:** `http://www.w3.org/ns/solid/daen#isEventLogOf`
+
+The [[spec-overview#artefact|Artefact]] which lifecycle is represented by t[[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] of this .
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+### Property: <a href="">daen:artefact</a> ### {#property-artefact}
+
+**URI:** `http://www.w3.org/ns/solid/daen#artefact`
+
+The artefact whose lifecycle the [[spec-overview#lifecycle-event|Lifecycle Event]] belongs to.
+
+: Subproperty of:
+:: <a href="https://www.w3.org/TR/prov-o/#used">prov:used</a>
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+### Property: <a href="">daen:maintainer</a> ### {#property-maintainer}
+
+Issue: remove this property because not needed (see signatures)?
+
+**URI:** `http://www.w3.org/ns/solid/daen#maintainer`
+
+The [[spec-overview#maintainer|Maintainer]] who maintains the [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] resource.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
+
+### Property: <a href="">daen:executor</a> ### {#property-executor}
+
+**URI:** `http://www.w3.org/ns/solid/daen#executor`
+
+The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Service Hub]] who executed the event.
+
+: Subproperty of:
+:: <a href="https://www.w3.org/TR/prov-o/#wasAssociatedWith">prov:wasAssociatedWith</a>
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
+
+### External properties
+
+#### Property: <a href="http://www.w3.org/ns/ldp#contains">ldp:contains</a> #### {#property-contains}
+
+**URI:** `http://www.w3.org/ns/ldp#contains`
+
+The [[spec-overview#lifecycle-event|Lifecycle Event]] that is contained by this [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:LifecycleEvent</a>
+
+#### Property: <a href="http://www.w3.org/ns/prov#generated">prov:generated</a> #### {#property-generated}
+
+**URI:** `http://www.w3.org/ns/prov#generated`
+
+A secondary [[spec-overview#artefact|Artefact]] that resulted from this [[spec-overview#lifecycle-event|Lifecycle Event]]. 
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+#### Property: <a href="http://www.w3.org/ns/prov#startedAtTime">prov:startedAtTime</a> #### {#property-startedattime}
+
+**URI:** `http://www.w3.org/ns/prov#startedAtTime`
+
+The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] started.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+
+#### Property: <a href="http://www.w3.org/ns/prov#endedAtTime">prov:endedAtTime</a> #### {#property-endedattime}
+
+**URI:** `http://www.w3.org/ns/prov#endedAtTime`
+
+The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] ended.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+
+#### Property: <a href="http://purl.org/dc/terms/title">dct:title</a> #### {#property-title}
+
+**URI:** `http://purl.org/dc/terms/title`
+
+The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a>
+
+#### Property: <a href="https://w3id.org/security#signature">sec:signature</a> #### {#property-signature}
+
+**URI:** `https://w3id.org/security#signature`
+
+The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="https://w3id.org/security#Signature">sec:Signature</a>
+
+#### Property: <a href="https://w3id.org/security#creator">sec:creator</a> #### {#property-creator}
+
+**URI:** `https://w3id.org/security#creator`
+
+The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">sec:Signature</a>
+: In range:
+:: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
+
+## Signing lifecycle events
+
+Lifecycle events that belong to a single [=Artefact=] can be produced by different [=actors=] in the network. 
+While one can derive the [=actor=] who executed the event via the [[#property-executor|`daen:executor`]] property,
+it is also essential to derive who vouches for its existence. 
+This is done by signing the serialized [=Lifecycle Event=] and adding the who, what, and when of the digital signature.
+Often, the [=actor=] who executes the event is the same as the one who sings it, although this is should not always be the case.
+
+An event of type [[#type-lifecycle-event|`daen:LifecycleEvent`]] SHOULD contain a [[#property-signature|`sec:signature`]] property. 
+The signature MUST be typed as one of the classes in [[security-vocab#classes]] and MUST be a valid [[linked-data-proof#linked-data-signatures|Linked Data Signature]].
+It MUST contain the property `sec:creator` with the URI of the signing [=actor=] as value.
+
+<pre class=include-code>
+path: examples/SignedLifecycleEvent.jsonld
+highlight: json
+show: 
+</pre>
+
+Discovering an Artefact Lifecycle Event Log {#discovery}
+===============================
+
+An [=Artefact Lifecycle Event Log=] can be discovered with multiple methods:
+
+1. [=Actors=] issue a request to any resource to retrieve the [=Artefact Lifecycle Event Log=]'s URL from a link ([[#discovery-link]]).
+2. [=Actors=] use [[shapetrees]] description to pinpoint the [=Artefact Lifecycle Event Log=]'s URL ([[#discovery-shapetrees]])  
+
+Issue: how to pinpoint what resources can lead to such link? Who is hosting them? 
+
+Any [=artefact=] resource MUST support the first discovery method. They MAY support the additional [[shapetrees]] method.
+[=Actors=] MAY choose the order in which they try these discovery methods
+
+## Discovery via link ## {#discovery-link}
+
+An [=actor=] MUST try at least one of the following:
+
+ - make an HTTP HEAD or GET request on the target URL, and use the `Link` header with a `rel` value of `http://www.w3.org/ns/solid/daen#eventLog`.
+ - make an HTTP GET request on the target URL to retrieve an [[rdf11-primer|RDF 1.1]] representation, whose encoded RDF graph contains a relation of type `http://www.w3.org/ns/solid/daen#eventLog`. The subject of that relation is the target and the object is the [=Artefact Lifecycle Event Log=].
+ - make an HTTP GET request on the target URL to retrieve an [[html]] representation, whose HTML body contains a link element with a `rel` value of `http://www.w3.org/ns/solid/daen#eventLog`. The value of the `href` attribute is the [=Artefact Lifecycle Event Log=].
+
+An [=actor=] may be carried out in either order, but if the one fails to result in an [=Artefact Lifecycle Event Log=] the alternatives MUST be tried. 
+A resource MAY advertise multiple [=Artefact Lifecycle Event Log=] resources, for example an [=artefact=] aiding in the discovery of its lifecycle distributed over the network. 
+A [=Artefact Lifecycle Event Log=] MAY be used by multiple resources, for example using a single [=Artefact Lifecycle Event Log=] to collect the [=Lifecycle Events=] from all [=Artefacts=] in a data pod.
+
+<div class='example'>
+In case of an RDF resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add the following data triple to the document body:
+
+<pre class=include-code>
+path: examples/discovery.ttl
+highlight: turtle
+show: 
+</pre>
+</div>
+
+<div class='example'>
+In case of an HTML resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add use a Link element in the HTML body as follows:
+<pre class=include-code>
+path: examples/discovery.html
+highlight: html
+show: 
+</pre>
+</div>
+
+<div class='example'>
+Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
+``` http
+Link: <https://example.org/eventlog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
+```
+</div>
+
+Issue: get more specifics on the method below
+
+Certain data formats may use an external resource to aggregate metadata and/or serve as an entry-point for multiple resources.
+The implementer MAY choose to aggregate the [=Artefact Lifecycle Event Log=] entities advertised by the aggregated resources in the aggregation resource, 
+and advertise them from this resource.
+Alternatively, the implementer may choose to advertise a single [=Artefact Lifecycle Event Log=] instance from the aggregation resource for all aggregated resources. 
+
+Any implementation MAY support the discovery of an Event Log through an external resource.
+In this case, the actor MUST make an HTTP HEAD or GET request on the target URL.
+The actor must search in the response headers for a Link header with a `rel` value of `meta` and in the response body for a link element with a `rel` value of `meta` in the case of a [[html]] representation, 
+or for a data triple with a predicate value of `rdf:seeAlso` in case of an [[rdf11-primer|RDF 1.1]] encoding.
+
+<div class='example'>
+The aggregation resource located at `aggregationResourceURI` MUST be linked for all aggregated resources through EITHER an in-body link of the form:
+
+``` html
+<link rel='meta' href='{aggregationResourceURI}' />
+``` 
+in case of a HTML resource and 
+
+``` turtle
+<resourceURI> rdf:seeAlso <aggregationResourceURI> .
+``` 
+in case of an RDF encoding OR using a `Link` header of the form:
+
+``` http
+Link: <aggregationResourceURI>; rel=meta
+```
+</div>
+
+## Discovery via Shape Trees ## {#discovery-shapetrees}
+Any implementation MAY support the discovery of an [=Artefact Lifecycle Event Log=] through [[shapetrees]]  defined in the data platform.
+
+In the [[solid-protocol|Solid]] ecosystem, All created [=Artefact Lifecycle Event Log=] resources SHOULD be discoverable in the data pod through the pod's [[shapetrees#tree|Shape Tree]].
+This enables actors in the network to efficiently aggregate all [=Lifecycle Event=] data in the data pod for which they have Read permissions.
+
+<div class="example">
+```
+// The Events folder contains EventLog containers
+<#Events> st:expectsType st:ShapeTreeContainer ;
+	st:contains <#EventStream> ; 
+
+// An Event Log is a container in the Solid ecosystem containing Event resources.
+<#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains <#Event> ;
+	
+// An Event resource is Validated by a base Event shape
+<#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy <EventShape> ;
+
+<EventShape> { ... }
+```
+</div>
+
+
+Appending Lifecycle Events {#producing}
+======================================
+
+An actor can append [=Lifecycle Events=] by sending a `POST` request to the [=Artefact Lifecycle Event Log=].
+
+In case [authorization](#authorization) is enabled for the [=Artefact Lifecycle Event Log=], the actor MUST have [append permissions](#authorization-append) to execute this action.
+
+Before appending an event to the [=Artefact Lifecycle Event Log=], the client SHOULD try to discover if [validation](#validation) is enabled for the [=Artefact Lifecycle Event Log=]. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link. 
+
+Any event that is successfully posted and validated MUST be added to the [=Artefact Lifecycle Event Log=].
+The permissions for the event SHOULD per default be inherited from the [=Artefact Lifecycle Event Log=] permissions.
+
+On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its [=Artefact Lifecycle Event Log=] with URI <em>eventLogURI</em> using an RDF triple of the form:
+
+```
+<eventLogURI> ldp:contains <eventURI> .
+```
+
+## Pagination ## {#producing-pagination}
+
+A [=Artefact Lifecycle Event Log=] MAY make use of pagination.
+Any used pagination system MUST make sure that ALL events in the [=Artefact Lifecycle Event Log=] can be retrieved by following the available <em>next</em> links.
+These links MUST be provided either as a Link header of the form:
+```
+Link: <nextPageLocation>; rel="next"
+```
+or in the body of the [=Artefact Lifecycle Event Log=] / a retrieved page of the [=Artefact Lifecycle Event Log=] as a data triple:
+```
+<eventLogURI> hydra:next <nextPageLocation> .
+```
+Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications. 
+
+
+Consuming an Artefact Lifecycle Event Log {#consuming}
+===================================
+
+An actor can consume a [=Artefact Lifecycle Event Log=] by sending a GET request.
+
+On a successful GET request on the Event Log URI `eventLogURI`, the actor can discover the URIs of the available events by processing the [=Artefact Lifecycle Event Log=] body for all data triples of the form:
+
+```
+	<eventLogURI> ldp:contains <eventURI> .
+```
+The consumer implementation MAY include alternate approaches to retrieving events from an [=Artefact Lifecycle Event Log=], but MUST support this retrieval method.
+
+
+## Pagination ## {#consuming-pagination}
+
+Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
+On a GET request to an [=Artefact Lifecycle Event Log=] / [=Artefact Lifecycle Event Log=] page on URI `eventLogPageURI` with an Accept header of type `text/turtle`, the consumer MUST process the server response for a Link header with a rel value of `"next"`.
+The response body MUST be processed to discover any data triples of the form:
+
+```
+<eventLogPageURI> hydra:next <nextPageLocation> .
+```
+Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated [=Artefact Lifecycle Event Log=].
+
+
+Authorization {#authorization}
+===============================
+
+Any platform implementing the [=Artefact Lifecycle Event Log=] mechanism MAY support authorization for the following aspects of the [=Artefact Lifecycle Event Log=] mechanism:
+- Reading access for an [=Artefact Lifecycle Event Log=]
+- Append access for an [=Artefact Lifecycle Event Log=]
+- Update permissions for an [=Artefact Lifecycle Event Log=]
+- Reading access for a specific event in an [=Artefact Lifecycle Event Log=]
+- Update permissions for a specific event in an [=Artefact Lifecycle Event Log=]
+
+Any implementation of authorization for an [=Artefact Lifecycle Event Log=] MUST make use of [Web Access Control (WAC)](https://www.w3.org/wiki/WebAccessControl). 
+The discovery of the ACL document for a resource MUST be done according to the [ACL spec](https://www.w3.org/wiki/WebAccessControl).
+The setting of permissions for a resource happens by creating / updating the [ACL file](https://www.w3.org/wiki/WebAccessControl) for that resource.
+
+NOTE: Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to authorization, as the goal is to maintain compatibility with the Solid Project.
+
+## Read authorization ## {#authorization-read}
+
+Any actor with Read permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to discover all Events in the [=Artefact Lifecycle Event Log=] to which the actor has Read permissions.
+Any actor with Read permissions set for an [=Artefact Lifecycle Event Log=] SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
+The implementation MAY restrict the actor from discovering events in the [=Artefact Lifecycle Event Log=] for which the actor does not have Read permissions.
+Any actor without Read permissions for an [=Artefact Lifecycle Event Log=] SHOULD NOT be able to discover the Event in the [=Artefact Lifecycle Event Log=], even if the actor has Read permissions for individual events in the [=Artefact Lifecycle Event Log=].
+
+## Append authorization  ## {#authorization-append}
+
+Any actor with Append permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to append Events to the [=Artefact Lifecycle Event Log=].
+
+Note: The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the [=Artefact Lifecycle Event Log=], but the platform MUST support the use of POST operations on the [=Artefact Lifecycle Event Log=] for the chosen permission.
+
+## Update permissions authorization  ## {#authorization-permissions}
+
+Any actor with Update permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to edit permissions for all actors for the [=Artefact Lifecycle Event Log=].
+Any actor with Update permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to edit permissions for all individual events in the [=Artefact Lifecycle Event Log=] UNLESS explicitly defined otherwise by the individual events.
+
+## Event specific read authorization  ## {#authorization-specific-read}
+Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the [=Artefact Lifecycle Event Log=] in the case of Read permissions for the [=Artefact Lifecycle Event Log=].
+
+## Event specific update permissions authorization  ## {#authorization-specific-update}
+Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event.
+
+Validating an Artefact Lifecycle Event Log  {#validation}
+===============================
+Any implementation of the [=Artefact Lifecycle Event Log=] mechanism MAY add support for validating events that are appended to the [=Artefact Lifecycle Event Log=].
+In case an actor tries to append an event to the [=Artefact Lifecycle Event Log=] that cannot be validated, the event MUST NOT be added to the [=Artefact Lifecycle Event Log=] and an appropriate 4xx error code must be returned.
+The following sections define the different possibilities for providing a shape file, located at `shapeFileLocation`, to which an event MUST validate before it can be added to the [=Artefact Lifecycle Event Log=].
+If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] and MUST reject all requests for which the event fails this validation step.
+
+## Validation Link Header ## {#validation-link-header}
+
+A request to the [=Artefact Lifecycle Event Log=] MAY return the following Link header:
+
+```
+Link: <shapeFileLocation>; rel=http://www.w3.org/ns/ldp#constrainedBy
+```
+In this case, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] for the advertised shape file.
+
+
+## Validation in-body Link ## {#validation-in-body-link}
+
+The [=Artefact Lifecycle Event Log=] MAY provide the following links in the resource body:
+```
+<link rel='http://www.w3.org/ns/ldp#constrainedBy' href='{shapeFileLocation}'/>
+```
+in the case of an HTML resource, and 
+
+```
+<eventLogURI> <http://www.w3.org/ns/ldp#constrainedBy> <shapeFileLocation>.
+```
+
+in case of an RDF resource.
+In this case, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] for the advertised shape file.
+http://www.w3.org/ns/ldp#constrainedBy
+
+## Shape Tree Validation ## {#validation-shape-tree}
+
+In a Solid environment, the shape file to which all events in the [=Artefact Lifecycle Event Log=] must validate MAY be advertised using a st:validatedBy link in the [Shape Tree](https://shapetrees.org/).
+In this case, the implementation SHOULD also advertise this shape file using EITHER [a link header](#validation-link-header) or [an in-body link](#validation-in-body-link).
+<div class="example">
+```
+
+// An Artefact Lifecycle Event Log is a container in the Solid ecosystem containing Event resources.
+<#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains <#Event> ;
+	
+// All event resources MUST validate for the advertised shape
+<#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy <shapeFileLocation> ;
+```
+</div>
+
+
+
+
+
+<pre class=biblio>
+{
+	"solid-oidc": {
+		"authors": [
+			"Aaron Coburn (Inrupt)",
+			"elf Pavlik",
+			"Dmitri Zagidulin"
+		],
+		"href": "https://solid.github.io/authentication-panel/solid-oidc/",
+		"title": "SOLID-OIDC",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
+	},
+	"solid-protocol": {
+		"authors": [
+			"Sarven Capadisli",
+			"Tim Berners-Lee",
+			"Ruben Verborgh",
+			"Kjetil Kjernsmo",
+			"Justin Bingham",
+			"Dmitri Zagidulin"
+		],
+		"href": "https://solidproject.org/TR/protocol",
+		"title": "The Solid Protocol",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
+	},
+    "spec-overview": {
+		"authors": [
+      "Miel Vander Sande",
+      "Patrick Hochstenbach",
+      "Ruben Dedecker",
+      "Jeroen Werbrouck"
+    ],
+		"href": "http://mellonscholarlycommunication.github.io/spec-overview/",
+		"title": "Overview of the ResearcherPod specifications",
+		"status": "Editor’s Draft",
+		"publisher": "ResearcherPod project"
+	},
+	"shapetrees": {
+		"authors": [
+			"Eric Prud'hommeaux", 
+			"Justin Bingham"
+		],
+		"href": "https://shapetrees.org/TR/specification/",
+		"title": "Shape Trees Specification",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
+	},
+	"security-vocab": {
+		"authors": [
+			"Manu Sporny",
+			"Orie Steele",
+			"Tobias Looker"
+		],
+		"href": "https://w3c-ccg.github.io/security-vocab/",
+		"title": "The Security Vocabulary",
+		"status": "Draft Community Group Report",
+		"publisher": "W3C Credentials Community Group",
+		"deliveredBy": [
+			"https://w3c-ccg.github.io/"
+		]
+	},
+		"linked-data-proof": {
+		"authors": [
+			"Manu Sporny",
+			"Dave Longley"
+		],
+		"href": "https://w3c-ccg.github.io/ld-proofs",
+		"title": "Linked Data Proofs 1.0",
+		"status": "Draft Community Group Report",
+		"publisher": "W3C Credentials Community Group",
+		"deliveredBy": [
+			"https://w3c-ccg.github.io/"
+		]
+	}
+}
+</pre>
+
+# Acknowledgement
+
+We thank Herbert Van de Sompel, [DANS + Ghent University](https://dans.knaw.nl/nl/), hvdsomp@gmail.com
+for the valuable input during this project.
